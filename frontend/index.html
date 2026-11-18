@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Simulador Bancario Web</title>
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/estilos.css">
+  <script src="/js/api.js" defer></script>
+</head>
+<body>
+  <main class="container py-5">
+    <section class="card shadow-sm mx-auto panel-salud" aria-labelledby="titulo">
+      <div class="card-body p-4 p-md-5">
+        <h1 class="h2 mb-2" id="titulo">Simulador Bancario Web</h1>
+        <p class="text-body-secondary mb-4">Verifica el estado del entorno local.</p>
+        <dl class="mb-4" aria-live="polite">
+          <dt>Servidor HTTP</dt>
+          <dd id="estado-servidor">Pendiente</dd>
+          <dt>MySQL</dt>
+          <dd id="estado-base-datos">Pendiente</dd>
+        </dl>
+        <button id="verificar" class="btn btn-primary" type="button">Comprobar estado</button>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
