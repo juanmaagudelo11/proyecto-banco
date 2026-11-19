@@ -25,7 +25,7 @@ Proyecto académico. La fase 1 ofrece una portada de diagnóstico y una API loca
 
 La API y los archivos públicos comparten origen. El servidor escucha en `127.0.0.1` y sirve Bootstrap localmente. Si cambias `PUERTO`, usa el nuevo puerto en el navegador y en los comandos. Conserva las credenciales de prueba en el archivo `backend/.env`.
 
-Consulta [el estado de la fase](docs/ESTADO_PROYECTO.md), [el plan](docs/PLAN_FASES.md) y [las decisiones](docs/decisiones.md).
+Consulta [el estado de la fase](docs/ESTADO_PROYECTO.md), [el plan](docs/PLAN_FASES.md), [las decisiones](docs/decisiones.md) y [el diagrama entidad-relación](docs/DIAGRAMA_ER.md).
 
 ## Fase 2 — Esquema y datos de demostración
 

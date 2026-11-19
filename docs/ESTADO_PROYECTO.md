@@ -173,3 +173,23 @@
 
 **Cierre.** El usuario aprobó las pruebas de la fase 7 el 18 de noviembre de 2026, tras verificar manualmente en la base activa: consignación de $100,50 y transferencia de $150,25 a la cuenta 9000000001, transferencia recibida en la cuenta 9000000002 y retiro de $50,25 en el cajero. Saldos finales confirmados en los tres módulos (administración, banca virtual y cajero): $225,00 y $575,25. Fase 8 autorizada.
 
+## Fase 8 — Pulido, documentación y entrega
+
+**Estado técnico: APROBADA con un punto no ejecutado por decisión del usuario.** El usuario autorizó la fase tras el cierre de la fase 7.
+
+**Requisitos cubiertos.** Pulido visual y accesibilidad de las cinco pantallas de la interfaz (inicio de sesión, panel de administración, banca virtual, cajero ATM y portada), diagrama entidad-relación del esquema final y revisión de limpieza de código. Corresponde al alcance de cierre indicado en `AGENTS.md` (pulido, documentación y entrega), sin requisitos funcionales nuevos.
+
+**Archivos de la fase.** Frontend: `paginas/inicioSesion.html`, `css/estilos.css`, `paginas/panelAdministrador.html`, `paginas/bancaVirtual.html`, `paginas/cajeroAtm.html` (encabezados y detalles visuales). Documentación: `docs/DIAGRAMA_ER.md` (nuevo) y este registro.
+
+| Verificación | Procedimiento | Resultado |
+| --- | --- | --- |
+| Pulido visual de las 5 pantallas | Revisión manual en navegador de escritorio | **APROBADA**. Inicio de sesión, panel de administración, banca virtual, cajero ATM y portada revisados y confirmados por el usuario. |
+| Verificación responsive/móvil | Emulación de dispositivo (iPhone SE, 375×667) en DevTools sobre las 4 pantallas principales | **APROBADA**. Sin desbordamientos horizontales ni elementos cortados. |
+| Diagrama entidad-relación | `docs/DIAGRAMA_ER.md`, sintaxis mermaid `erDiagram` con las 7 tablas finales (incluidas las de las migraciones 003 y 006) | **APROBADA**. Renderiza correctamente en GitHub tras corregir una incompatibilidad de sintaxis (atributo con dos etiquetas). |
+| Limpieza de código | `git grep` para `console.log` sueltos, `TODO`/`FIXME`/`XXX`, y verificación de `.gitignore` contra `git ls-files` | **APROBADA**. Sin hallazgos: los únicos `console.log` existentes son mensajes de arranque esperados, sin pendientes marcados, y ningún archivo sensible (`.env`, `database.local.sql`, `*.log`) quedó rastreado por Git. |
+| Checklist final — Fase 1 del README en un clon limpio | `Prueba-Instalacion`: verificación de versiones, `npm ci`, `npm test`, `npm start` y salud sin base de datos | **APROBADA**. Node 26.7.0, npm 11.19.0 y git 2.56.1 verificados; 85 paquetes instalados sin errores; 7 de 7 pruebas automáticas; estado de salud coincidió exactamente con lo esperado (HTTP disponible, MySQL no disponible). |
+| Checklist final — instalación completa de extremo a extremo (fases 2 a 7 del README) en el clon limpio | Importación de `database.sql` y migraciones 003/006 en una base aislada (`simulador_checklist_final`) y conexión de la aplicación | **NO EJECUTADA**. El esquema se importó correctamente, pero la conexión de la aplicación no se completó por una incompatibilidad de configuración de usuarios de MySQL en el entorno XAMPP local (ajena al código del proyecto). El usuario decidió no continuar esta verificación. |
+
+**No ejecutadas.** La verificación completa de extremo a extremo (importación del esquema, conexión de la aplicación y login en los tres módulos) sobre una instalación limpia. El resto de la fase se completó y fue verificado directamente por el usuario.
+
+**Cierre.** El usuario revisó el pulido visual, el diagrama entidad-relación y la limpieza de código, y decidió no completar la verificación de instalación limpia de extremo a extremo. La carpeta de prueba y la base de datos temporal se eliminaron; el proyecto principal (`backend/.env` con `simulador_web`) se confirmó funcionando sin alteraciones. Fase 8 cerrada el 19 de noviembre de 2026 con esa salvedad documentada.
