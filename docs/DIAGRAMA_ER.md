@@ -60,6 +60,6 @@ erDiagram
   }
   RETIROS_ATM {
     binary huella_solicitud PK
-    int id_movimiento FK UK
+        int id_movimiento FK
   }
 ```
