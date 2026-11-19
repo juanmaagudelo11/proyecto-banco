@@ -1,0 +1,38 @@
+body.atm {
+  min-height: 100vh;
+  background: radial-gradient(ellipse at top right, #173f55, transparent 50rem), #0b1729;
+  color: #eff8ff;
+}
+
+.atm-contenedor { max-width: 65rem; }
+.atm-secundario { color: #c1d4e8; }
+
+.atm-panel {
+  border: 1px solid #36546e;
+  border-radius: 1rem;
+  background: #12253c;
+  padding: clamp(1.05rem, 3.5vw, 1.8rem);
+}
+
+.atm-ingreso { max-width: 29rem; }
+.atm-saldo { background: linear-gradient(140deg, #124156, #142843); }
+.atm-importe { font-size: clamp(1.9rem, 5vw, 2.9rem); font-weight: 700; overflow-wrap: anywhere; }
+.atm-aviso { color: #cdefff; }
+.atm-aviso.error { color: #ffd4db; }
+
+.atm-comprobante {
+  padding: .85rem 1rem;
+  border: 1px solid #507894;
+  border-radius: .65rem;
+  background: #163950;
+}
+
+.atm .table {
+  --bs-table-bg: transparent;
+  --bs-table-color: #eff8ff;
+  --bs-table-border-color: #45637d;
+}
+
+.atm .table th { white-space: nowrap; }
+.atm .table td { min-width: 6rem; }
+.atm legend.form-label { float: none; font-size: 1rem; }

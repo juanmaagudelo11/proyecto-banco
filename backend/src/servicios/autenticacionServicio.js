@@ -1,4 +1,4 @@
-const { createHash, randomBytes } = require('node:crypto');
+const { crearTokenSesion, huellaDeSesion, hashSimulado } = require('./seguridadSesion');
 const bcrypt = require('bcrypt');
 const { buscarUsuarioParaIngreso, leerUsuarioParaSesion } = require('../modelos/usuario');
 const { enTransaccion } = require('../baseDatos/transaccion');
@@ -8,13 +8,6 @@ const {
 } = require('../modelos/sesion');
 
 const vigenciaSegundos = 30 * 60;
-// Hash de un valor aleatorio, usado para comparar también si la identidad no existe.
-const hashSinUsuario = '$2b$12$Oe/ob3J1Q/RvLh.NwEUTXeOinVmXXsVniw8UkILkVQpDj8q9qETQG';
-
-function huellaDeSesion(token) {
-  if (typeof token !== 'string' || !/^[A-Za-z0-9_-]{43}$/.test(token)) return null;
-  return createHash('sha256').update(token).digest();
-}
 
 function datosPublicos(usuario) {
   return { rol: usuario.rol, idUsuario: usuario.id_usuario, nombre: usuario.nombre_completo };
@@ -34,11 +27,11 @@ function crearServicioAutenticacion(conexion) {
 
   async function iniciarSesion(identificador, contrasena, tokenAnterior) {
     const usuario = await buscarUsuarioParaIngreso(conexion, identificador);
-    const coincide = await bcrypt.compare(contrasena, usuario?.contrasena ?? hashSinUsuario);
+    const coincide = await bcrypt.compare(contrasena, usuario?.contrasena ?? hashSimulado);
     if (!usuario || !coincide) return { estado: 401 };
     if (!await puedeAcceder(usuario)) return { estado: 403 };
 
-    const token = randomBytes(32).toString('base64url');
+    const token = crearTokenSesion();
     await cerrarSesion(tokenAnterior);
     await eliminarSesionesVencidas(conexion);
     return enTransaccion(conexion, async (transaccion) => {

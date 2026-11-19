@@ -125,4 +125,28 @@
 
 **No ejecutadas.** Prueba en la base activa del usuario y en otros navegadores. El procedimiento de permisos, arranque y prueba manual está en [README.md](../README.md#fase-5--banca-virtual-y-transferencias-en-xampp).
 
-**Pendiente.** Aprobación expresa de la fase 5. Fase 6 sin iniciar.
+**Cierre.** El usuario aprobó las pruebas de la fase 5 y autorizó la fase 6.
+
+## Fase 6 — Cajero ATM
+
+**Estado técnico: APROBADA.** Alcance autorizado tras la verificación de la fase 5.
+
+**Requisitos cubiertos.** RF-13 a RF-16, control de estados RN-02, prohibición de sobregiro RN-04 e historial inmutable RN-07 en el alcance de ATM. Se verificó CP-10 y la parte de retiro de CP-08.
+
+**Implementación.** Acceso por número de cuenta y PIN bcrypt, límites por cuenta e IP, sesión ATM independiente de cinco minutos y expulsión. El cajero consulta un saldo y hasta cinco movimientos. Los retiros validan el importe, el estado del titular y de la cuenta y la vigencia de la sesión. El débito, el movimiento y la referencia de una solicitud con clave se confirman en la misma transacción. La vista presenta el comprobante y los importes en COP.
+
+**Archivos de la fase.** `migraciones/006_atm.sql`; backend `src/modelos/{atm,movimiento}.js`, `src/servicios/{atmServicio,seguridadSesion,autenticacionServicio}.js`, `src/controladores/atmControlador.js`, `src/rutas/atmRutas.js`, `src/app.js`, `pruebasIntegracion/atm.js` y `package.json`; frontend `index.html`, `paginas/cajeroAtm.html`, `css/cajeroAtm.css` y `js/cajeroAtm.js`. Documentación en `README.md`, `docs/decisiones.md` y este registro.
+
+| Verificación | Comando o procedimiento | Resultado |
+| --- | --- | --- |
+| Cajero sobre MariaDB | `npm.cmd run test:atm` con MariaDB 10.4.32 y base vacía aislada | **APROBADA**. 8 de 8 comprobaciones. |
+| Cajero sobre MySQL | `npm.cmd run test:atm` con MySQL 8.4.13 y base vacía aislada | **APROBADA**. 8 de 8 comprobaciones. |
+| Seguridad y estados | Casos de PIN, sesión, origen y límite de intentos en ambos motores | **APROBADA**. Se comprobó cero inicial, bloqueo, expiración, expulsión, separación de sesión web, cookie `Secure` con origen HTTPS y límites por cuenta e IP. |
+| Integridad del retiro | Pruebas de duplicado y de concurrencia, y trigger de fallo dentro de `test:atm` | **APROBADA**. Una clave repetida produjo un solo movimiento. Retiros distintos no causaron sobregiro. Un fallo al registrar la solicitud revirtió el débito y el movimiento. |
+| Coherencia entre módulos | Lecturas ATM, banca y administración tras retirar 50,25 COP | **APROBADA**. Saldo de 799,75 COP y movimiento `RETIRO` visible en los tres módulos. |
+| Regresiones | `npm.cmd test` y suites `test:esquema`, `test:autenticacion`, `test:admin`, `test:banca` | **APROBADA**. 7 de 7 del backend y, por motor, 8 de 8 de esquema, 6 de 6 de autenticación, 7 de 7 de Administración y 8 de 8 de Banca. |
+| Demostración en navegador | Edge con Express y MariaDB 10.4.32 aislada, usando permisos limitados | **APROBADA**. Identificación con PIN de cero inicial, vista a 390 px, monto rápido, rechazo por saldo insuficiente, retiro personalizado, comprobante COP, historial y expulsión. |
+
+**No ejecutadas.** Prueba en la base activa del usuario, otros navegadores y HTTPS de extremo a extremo. El procedimiento de migración, permisos y prueba está en [README.md](../README.md#fase-6--cajero-atm-en-xampp).
+
+**Pendiente.** Aprobación expresa de la fase 6. Fase 7 sin iniciar.

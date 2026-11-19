@@ -13,7 +13,8 @@
     "test:esquema": "node --test pruebasIntegracion/esquema.js",
     "test:autenticacion": "node --test pruebasIntegracion/autenticacion.js",
     "test:admin": "node --test pruebasIntegracion/admin.js",
-    "test:banca": "node --test pruebasIntegracion/banca.js"
+    "test:banca": "node --test pruebasIntegracion/banca.js",
+    "test:atm": "node --test pruebasIntegracion/atm.js"
   },
   "dependencies": {
     "bcrypt": "^6.0.0",

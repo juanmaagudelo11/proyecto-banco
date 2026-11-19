@@ -257,3 +257,43 @@ La interfaz solo muestra cuentas propias activas. Si hay varias, el selector fij
 ### Repetir las pruebas de banca virtual
 
 Crea una base vacía `simulador_fase5_prueba` y usa las variables `MYSQL_PRUEBA_*` indicadas en la fase 3, con el nombre nuevo y una cuenta de instalación de prueba con permisos para crear tablas y triggers en esa base. Desde `backend`, ejecuta `npm.cmd run test:banca`. Para repetir, crea otra base vacía, por ejemplo `simulador_fase5_prueba_2`. La suite importa sus propias semillas y aplica la migración de sesiones.
+
+## Fase 6 — Cajero ATM en XAMPP
+
+1. Selecciona la base de demostración de las fases anteriores en phpMyAdmin. Importa [006_atm.sql](migraciones/006_atm.sql) como SQL UTF-8. La migración añade `sesiones_atm` y `retiros_atm`.
+2. Como administrador SQL, otorga estos permisos adicionales a la cuenta del backend. Ajusta el nombre de la base y el usuario si son distintos en `backend/.env`.
+
+   ```sql
+   GRANT SELECT, INSERT, DELETE ON simulador_fase3_demo.sesiones_atm TO 'simulador_web'@'127.0.0.1';
+   GRANT SELECT, INSERT ON simulador_fase3_demo.retiros_atm TO 'simulador_web'@'127.0.0.1';
+   ```
+
+   Conserva los permisos de las fases anteriores. El retiro usa el permiso de actualizar `cuentas.saldo` y de insertar en `movimientos`.
+
+3. Detén Express con `Ctrl+C` si está abierto. Desde la raíz, arranca el simulador:
+
+   ```powershell
+   Set-Location backend
+   npm.cmd test
+   npm.cmd start
+   ```
+
+4. Abre `http://127.0.0.1:3000/cajero-atm` e ingresa `9000000001` y el PIN ficticio `PIN_1` que elegiste al regenerar las semillas. Escribe los cuatro dígitos, incluido cualquier cero inicial. Si abriste una cuenta desde Administración, también puedes usar ese número y el PIN que configuraste.
+5. Comprueba el saldo y los últimos movimientos. Selecciona un monto rápido o escribe un valor personalizado que puedas cubrir, por ejemplo `50,25`. Pulsa **Confirmar retiro**. El cajero debe mostrar el comprobante y el saldo disminuido en **$ 50,25**. Si la cuenta conservaba los **$ 850,00** de la semilla, quedará en **$ 799,75**.
+6. Pulsa **Finalizar y expulsar** y comprueba que reaparece el formulario. En Banca virtual del titular y en **Historial** de Administración debe aparecer el mismo retiro. La sesión del cajero es independiente de la sesión web.
+
+### API del cajero
+
+| Método y ruta | Parámetros y resultado |
+| --- | --- |
+| `POST /api/atm/login` | `numeroCuenta` y `pin` de cuatro dígitos como cadena. Establece la cookie del cajero. |
+| `GET /api/atm/saldo` | Número de cuenta, saldo decimal y segundos restantes de la sesión. |
+| `GET /api/atm/movimientos` | Hasta cinco movimientos de la cuenta identificada, de más reciente a más antiguo. |
+| `POST /api/atm/retirar` | `monto` y encabezado opcional `Idempotency-Key` con un UUID v4. Devuelve el comprobante y el saldo resultante. |
+| `POST /api/atm/logout` | Revoca la sesión y expira su cookie. |
+
+Las escrituras requieren el encabezado `Origin` del simulador. El cajero usa una sesión de cinco minutos. Se permiten hasta cinco intentos fallidos de acceso por cuenta y veinte por IP en quince minutos. Si el cajero reintenta el mismo importe en la misma página después de un fallo de comunicación, reusa la clave de la solicitud. Una repetición con la misma clave y sesión devuelve el comprobante anterior. Una solicitud API sin clave representa un retiro independiente.
+
+### Repetir las pruebas de ATM
+
+Crea una base vacía `simulador_fase6_prueba` y define las variables `MYSQL_PRUEBA_*` de la fase 3 con ese nombre y una cuenta de instalación de prueba con permisos para crear tablas y triggers. Desde `backend`, ejecuta `npm.cmd run test:atm`. Para repetir, usa otra base vacía con el prefijo de pruebas, como `simulador_fase6_prueba_2`.

@@ -29,4 +29,12 @@ async function registrarMovimientosTransferencia(conexion, idTransferencia, mont
     destino.idCuenta, idTransferencia, monto, destino.saldoAnterior, destino.saldoResultante, descripcion]);
 }
 
-module.exports = { listarMovimientosPorCuenta, listarMovimientosDeTitular, registrarMovimientosTransferencia };
+async function registrarRetiro(conexion, idCuenta, monto, saldoAnterior, saldoResultante) {
+  const [resultado] = await conexion.execute(`
+    INSERT INTO movimientos (id_cuenta, tipo_movimiento, monto, saldo_anterior, saldo_resultante, descripcion)
+    VALUES (?, 'RETIRO', ?, ?, ?, 'Retiro en cajero ATM')
+  `, [idCuenta, monto, saldoAnterior, saldoResultante]);
+  return resultado.insertId;
+}
+
+module.exports = { registrarRetiro, listarMovimientosPorCuenta, listarMovimientosDeTitular, registrarMovimientosTransferencia };

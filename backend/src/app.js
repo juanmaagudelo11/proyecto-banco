@@ -16,6 +16,9 @@ const { crearRutasAdmin } = require('./rutas/adminRutas');
 const { crearServicioBanca } = require('./servicios/bancaServicio');
 const { crearControladorCliente } = require('./controladores/clienteControlador');
 const { crearRutasCliente } = require('./rutas/clienteRutas');
+const { crearServicioAtm } = require('./servicios/atmServicio');
+const { crearControladorAtm } = require('./controladores/atmControlador');
+const { crearRutasAtm } = require('./rutas/atmRutas');
 const { crearVerificadorSesion } = require('./intermediarios/verificarSesion');
 const { verificarRol } = require('./intermediarios/verificarRol');
 const { manejarErrores } = require('./intermediarios/manejarErrores');
@@ -69,6 +72,9 @@ function crearAplicacion(verificarMySql, {
   aplicacion.use('/api/admin', leerCookies(), crearRutasAdmin(admin, verificarSesion, origen));
   const cliente = crearControladorCliente(crearServicioBanca(conexiones), nombreCookie, cookie);
   aplicacion.use('/api/banca', leerCookies(), crearRutasCliente(cliente, verificarSesion, origen));
+  const cookieAtm = { ...cookie, path: '/api/atm' };
+  const atm = crearControladorAtm(crearServicioAtm(conexiones), segura ? '__Secure-sesion_atm' : 'sesion_atm', cookieAtm);
+  aplicacion.use('/api/atm', leerCookies(), crearRutasAtm(atm, origen));
 
   function servirArchivo(...segmentos) {
     const archivo = ruta.join(carpetaFrontend, ...segmentos);
@@ -77,6 +83,7 @@ function crearAplicacion(verificarMySql, {
 
   aplicacion.get(['/', '/index.html'], servirArchivo('index.html'));
   aplicacion.get('/inicio-sesion', servirArchivo('paginas', 'inicioSesion.html'));
+  aplicacion.get('/cajero-atm', servirArchivo('paginas', 'cajeroAtm.html'));
   aplicacion.get('/panel-administrador', evitarCache, leerCookies(), verificarSesionDePagina,
     verificarRol('ADMIN'), servirArchivo('paginas', 'panelAdministrador.html'));
   aplicacion.get('/banca-virtual', evitarCache, leerCookies(), verificarSesionDePagina,
