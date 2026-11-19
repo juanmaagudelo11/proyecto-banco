@@ -16,4 +16,35 @@ async function buscarUsuarioParaIngreso(conexion, identificador) {
   return usuarios.length === 1 ? usuarios[0] : null;
 }
 
-module.exports = { buscarUsuarioPorId, buscarUsuarioParaIngreso };
+async function buscarContrasena(conexion, idUsuario) {
+  const [[usuario]] = await conexion.execute('SELECT contrasena FROM usuarios WHERE id_usuario = ?', [idUsuario]);
+  return usuario?.contrasena ?? null;
+}
+
+async function actualizarContrasena(conexion, idUsuario, hash) {
+  await conexion.execute("UPDATE usuarios SET contrasena = ? WHERE id_usuario = ? AND rol = 'CLIENTE'", [hash, idUsuario]);
+}
+
+async function actualizarPerfil(conexion, idUsuario, { correo, telefono }) {
+  await conexion.execute(`
+    UPDATE usuarios SET correo = COALESCE(?, correo), telefono = COALESCE(?, telefono)
+    WHERE id_usuario = ? AND rol = 'CLIENTE'
+  `, [correo, telefono, idUsuario]);
+}
+
+async function bloquearUsuario(conexion, idUsuario) {
+  const [[usuario]] = await conexion.execute(
+    'SELECT id_usuario, rol, estado FROM usuarios WHERE id_usuario = ? FOR UPDATE', [idUsuario]
+  );
+  return usuario ?? null;
+}
+
+async function leerUsuarioParaSesion(conexion, idUsuario) {
+  const [[usuario]] = await conexion.execute(`
+    SELECT id_usuario, nombre_completo, contrasena, rol, estado
+    FROM usuarios WHERE id_usuario = ? LOCK IN SHARE MODE
+  `, [idUsuario]);
+  return usuario ?? null;
+}
+
+module.exports = { leerUsuarioParaSesion, buscarUsuarioPorId, buscarUsuarioParaIngreso, bloquearUsuario, buscarContrasena, actualizarContrasena, actualizarPerfil };

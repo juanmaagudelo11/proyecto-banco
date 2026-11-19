@@ -1,6 +1,7 @@
 const { createHash, randomBytes } = require('node:crypto');
 const bcrypt = require('bcrypt');
-const { buscarUsuarioParaIngreso } = require('../modelos/usuario');
+const { buscarUsuarioParaIngreso, leerUsuarioParaSesion } = require('../modelos/usuario');
+const { enTransaccion } = require('../baseDatos/transaccion');
 const { tieneCuentaActiva } = require('../modelos/cuenta');
 const {
   guardarSesion, buscarUsuarioDeSesion, eliminarSesion, eliminarSesionesVencidas
@@ -20,10 +21,10 @@ function datosPublicos(usuario) {
 }
 
 function crearServicioAutenticacion(conexion) {
-  async function puedeAcceder(usuario) {
+  async function puedeAcceder(usuario, datos = conexion) {
     if (usuario.estado !== 'ACTIVO') return false;
     return usuario.rol === 'ADMIN' ||
-      (usuario.rol === 'CLIENTE' && await tieneCuentaActiva(conexion, usuario.id_usuario));
+      (usuario.rol === 'CLIENTE' && await tieneCuentaActiva(datos, usuario.id_usuario));
   }
 
   async function cerrarSesion(token) {
@@ -40,8 +41,13 @@ function crearServicioAutenticacion(conexion) {
     const token = randomBytes(32).toString('base64url');
     await cerrarSesion(tokenAnterior);
     await eliminarSesionesVencidas(conexion);
-    await guardarSesion(conexion, huellaDeSesion(token), usuario.id_usuario, vigenciaSegundos);
-    return { estado: 200, usuario: datosPublicos(usuario), token };
+    return enTransaccion(conexion, async (transaccion) => {
+      const vigente = await leerUsuarioParaSesion(transaccion, usuario.id_usuario);
+      if (vigente?.contrasena !== usuario.contrasena) return { estado: 401 };
+      if (!vigente || !await puedeAcceder(vigente, transaccion)) return { estado: 403 };
+      await guardarSesion(transaccion, huellaDeSesion(token), usuario.id_usuario, vigenciaSegundos);
+      return { estado: 200, usuario: datosPublicos(vigente), token };
+    });
   }
 
   async function consultarSesion(token) {

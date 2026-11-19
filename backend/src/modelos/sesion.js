@@ -25,4 +25,8 @@ async function eliminarSesionesVencidas(conexion) {
   await conexion.execute('DELETE FROM sesiones_web WHERE expira_en <= UTC_TIMESTAMP(3)');
 }
 
-module.exports = { guardarSesion, buscarUsuarioDeSesion, eliminarSesion, eliminarSesionesVencidas };
+async function eliminarSesionesDeUsuario(conexion, idUsuario) {
+  await conexion.execute('DELETE FROM sesiones_web WHERE id_usuario = ?', [idUsuario]);
+}
+
+module.exports = { guardarSesion, buscarUsuarioDeSesion, eliminarSesion, eliminarSesionesVencidas, eliminarSesionesDeUsuario };

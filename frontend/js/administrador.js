@@ -1,3 +1,5 @@
+import { dinero } from './formatoMonetario.js';
+
 const porId = (id) => document.getElementById(id);
 const fechaCorta = new Intl.DateTimeFormat('es-CO', { dateStyle: 'short', timeStyle: 'short' });
 const nombresTipo = {
@@ -10,11 +12,6 @@ const dialogoDetalle = porId('detalle-cliente');
 const formularioEdicion = porId('formulario-edicion');
 let detalle;
 let peticionDetalle = 0;
-
-function dinero(valor) {
-  const [entero, decimal = '00'] = String(valor).split('.');
-  return `$ ${entero.replace(/\B(?=(\d{3})+(?!\d))/g, '.')},${decimal.padEnd(2, '0')}`;
-}
 
 function mostrar(aviso, mensaje, error = false) {
   aviso.textContent = mensaje;

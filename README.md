@@ -216,3 +216,44 @@ Los listados devuelven `elementos`, `pagina` y `hayMas`, con hasta 20 filas o cl
 ### Repetir las pruebas de administración
 
 Crea una base vacía `simulador_fase4_prueba` y usa las mismas variables `MYSQL_PRUEBA_*` de la fase 3, con el nuevo nombre de base y un usuario de instalación de prueba autorizado a crear tablas y triggers en ella. Desde `backend`, ejecuta `npm.cmd run test:admin`. Para repetir, crea otra base vacía, por ejemplo `simulador_fase4_prueba_2`. La suite importa sus propias semillas, aplica la migración de sesiones y usa un trigger de fallo en la última prueba.
+
+## Fase 5 — Banca virtual y transferencias en XAMPP
+
+Usa la misma base que en Administración. Como administrador SQL en phpMyAdmin, añade estos dos permisos a la cuenta de aplicación. Sustituye `simulador_fase3_demo` y `simulador_web` si usaste otros nombres en `backend/.env`.
+
+```sql
+GRANT UPDATE (contrasena) ON simulador_fase3_demo.usuarios TO 'simulador_web'@'127.0.0.1';
+GRANT INSERT ON simulador_fase3_demo.transferencias TO 'simulador_web'@'127.0.0.1';
+```
+
+La fase usa el esquema existente. Si Express está abierto, detenlo con `Ctrl+C` en su terminal. Desde la raíz del proyecto en VS Code:
+
+```powershell
+Set-Location backend
+npm.cmd test
+npm.cmd start
+```
+
+1. Abre `http://127.0.0.1:3000/inicio-sesion` y entra con `DEMO-002` y la contraseña `CLIENTE_1` que elegiste al generar las semillas. Debes ver su cuenta `9000000001`, el saldo en COP y su historial.
+2. Transfiere `20,25` COP a `9000000002` y escribe una descripción ficticia. El saldo de origen debe bajar **$ 20,25**. En el historial de ese cliente aparece **Transferencia enviada**. Al entrar con `DEMO-003` y su contraseña `CLIENTE_2`, debe aparecer **Transferencia recibida** y el saldo debe aumentar por el mismo importe. Si las cuentas conservaban los saldos de las semillas, quedan en **$ 829,75** y **$ 420,25**.
+3. Intenta enviar a la misma cuenta origen o un valor que supere su saldo. La aplicación rechaza ambas solicitudes. Como ADMIN, puedes verificar los dos movimientos en **Historial** y que la transferencia conserva el saldo global.
+4. Edita el correo o el teléfono desde **Perfil**. En **Cambiar contraseña**, una contraseña actual incorrecta produce una denegación. Un cambio válido cierra todas las sesiones web del cliente. Ingresa nuevamente con la contraseña nueva. Usa una contraseña ficticia de al menos 12 caracteres para la demostración.
+
+### API de banca virtual
+
+Todas las rutas requieren una sesión `CLIENTE`. Las escrituras requieren JSON y `Origin` igual al origen del simulador.
+
+| Método y ruta | Parámetros |
+| --- | --- |
+| `GET /api/banca/cuenta` | `idCuenta` opcional. Devuelve el resumen de la cuenta elegida y el listado de cuentas activas propias. |
+| `GET /api/banca/movimientos` | `idCuenta` y `pagina` opcionales. Devuelve hasta 20 movimientos por página. |
+| `POST /api/banca/transferir` | `cuentaDestino`, `monto`, `descripcion` opcional e `idCuentaOrigen` opcional. |
+| `GET /api/banca/perfil` | Identidad obtenida de la sesión. |
+| `PUT /api/banca/perfil` | `correo` y/o `telefono`. |
+| `PUT /api/banca/contrasena` | `contrasenaActual` y `nuevaContrasena`. |
+
+La interfaz solo muestra cuentas propias activas. Si hay varias, el selector fija la cuenta del resumen, el historial y el origen de la transferencia. En llamadas que omitan la cuenta, el servidor selecciona la cuenta activa propia con el menor identificador. Se puede transferir entre dos cuentas distintas activas, incluidas dos del mismo titular. Los importes de la API usan el mismo formato decimal que Administración. Las pantallas presentan los valores en pesos colombianos con el prefijo `$ `.
+
+### Repetir las pruebas de banca virtual
+
+Crea una base vacía `simulador_fase5_prueba` y usa las variables `MYSQL_PRUEBA_*` indicadas en la fase 3, con el nombre nuevo y una cuenta de instalación de prueba con permisos para crear tablas y triggers en esa base. Desde `backend`, ejecuta `npm.cmd run test:banca`. Para repetir, crea otra base vacía, por ejemplo `simulador_fase5_prueba_2`. La suite importa sus propias semillas y aplica la migración de sesiones.

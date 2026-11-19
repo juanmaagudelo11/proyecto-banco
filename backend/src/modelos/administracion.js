@@ -52,28 +52,6 @@ async function crearCuenta(conexion, idUsuario, numeroCuenta, tipo, saldo, hash)
   return resultado.insertId;
 }
 
-async function bloquearUsuario(conexion, idUsuario) {
-  const [[usuario]] = await conexion.execute(
-    'SELECT id_usuario, rol, estado FROM usuarios WHERE id_usuario = ? FOR UPDATE', [idUsuario]
-  );
-  return usuario ?? null;
-}
-
-async function localizarCuenta(conexion, numeroCuenta) {
-  const [[cuenta]] = await conexion.execute(
-    'SELECT id_cuenta, id_usuario FROM cuentas WHERE numero_cuenta = ?', [numeroCuenta]
-  );
-  return cuenta ?? null;
-}
-
-async function bloquearCuenta(conexion, idCuenta, idUsuario) {
-  const [[cuenta]] = await conexion.execute(
-    'SELECT saldo, estado FROM cuentas WHERE id_cuenta = ? AND id_usuario = ? FOR UPDATE',
-    [idCuenta, idUsuario]
-  );
-  return cuenta ?? null;
-}
-
 async function actualizarCliente(conexion, idUsuario, cambios) {
   await conexion.execute(`
     UPDATE usuarios SET nombre_completo = COALESCE(?, nombre_completo),
@@ -86,10 +64,6 @@ async function actualizarEstadoCuenta(conexion, idCuenta, idUsuario, estado) {
   await conexion.execute(
     'UPDATE cuentas SET estado = ? WHERE id_cuenta = ? AND id_usuario = ?', [estado, idCuenta, idUsuario]
   );
-}
-
-async function actualizarSaldo(conexion, idCuenta, saldo) {
-  await conexion.execute('UPDATE cuentas SET saldo = ? WHERE id_cuenta = ?', [saldo, idCuenta]);
 }
 
 async function registrarConsignacion(conexion, idCuenta, monto, saldoAnterior, saldoResultante, descripcion) {
@@ -118,6 +92,5 @@ async function listarHistorial(conexion, filtros, limite, desplazamiento) {
 
 module.exports = {
   consultarMetricas, buscarClientes, listarCuentasDeClientes, crearCliente, crearCuenta,
-  bloquearUsuario, localizarCuenta, bloquearCuenta, actualizarCliente, actualizarEstadoCuenta,
-  actualizarSaldo, registrarConsignacion, listarHistorial
+  actualizarCliente, actualizarEstadoCuenta, registrarConsignacion, listarHistorial
 };

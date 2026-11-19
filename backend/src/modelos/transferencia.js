@@ -7,4 +7,11 @@ async function buscarTransferenciaPorId(conexion, idTransferencia) {
   return transferencias[0] ?? null;
 }
 
-module.exports = { buscarTransferenciaPorId };
+async function registrarTransferencia(conexion, idOrigen, idDestino, monto, descripcion) {
+  const [resultado] = await conexion.execute(`
+    INSERT INTO transferencias (id_cuenta_origen, id_cuenta_destino, monto, descripcion) VALUES (?, ?, ?, ?)
+  `, [idOrigen, idDestino, monto, descripcion]);
+  return resultado.insertId;
+}
+
+module.exports = { buscarTransferenciaPorId, registrarTransferencia };

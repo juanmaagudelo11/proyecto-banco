@@ -6,18 +6,138 @@
   <title>Banca virtual | Simulador Bancario Web</title>
   <link rel="stylesheet" href="/css/bootstrap.min.css">
   <link rel="stylesheet" href="/css/estilos.css">
+  <link rel="stylesheet" href="/css/bancaVirtual.css">
   <script src="/js/sesion.js" defer></script>
+  <script src="/js/bancaVirtual.js" type="module"></script>
 </head>
-<body>
-  <main class="container py-5">
-    <section class="card shadow-sm mx-auto panel-salud" aria-labelledby="titulo">
-      <div class="card-body p-4 p-md-5">
-        <h1 id="titulo" class="h2 mb-3">Banca virtual</h1>
-        <p id="nombre-usuario" class="mb-4" hidden></p>
-        <p id="aviso-sesion" role="alert" class="alert alert-danger" hidden></p>
-        <button id="cerrar-sesion" type="button" class="btn btn-outline-primary">Cerrar sesión</button>
+<body class="banca">
+  <header class="banca-encabezado text-white">
+    <div class="container py-4 py-lg-5">
+      <div class="d-flex flex-wrap align-items-start justify-content-between gap-3">
+        <div>
+          <p class="mb-1">Simulador Bancario Web</p>
+          <h1 class="display-6 mb-2">Banca virtual</h1>
+          <p id="nombre-usuario" class="mb-0" hidden></p>
+        </div>
+        <button id="cerrar-sesion" type="button" class="btn btn-outline-light">Cerrar sesión</button>
+      </div>
+      <p id="aviso-sesion" class="alert alert-danger mt-3 mb-0" role="alert" hidden></p>
+      <nav class="d-flex flex-wrap gap-3 mt-4" aria-label="Secciones de banca virtual">
+        <a href="#movimientos" class="link-light">Movimientos</a>
+        <a href="#transferencia" class="link-light">Transferir</a>
+        <a href="#perfil" class="link-light">Perfil y seguridad</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container py-4 py-lg-5">
+    <div class="row g-4 mb-4">
+      <div class="col-lg-7">
+        <section class="banca-panel banca-saldo h-100" aria-labelledby="resumen-titulo">
+          <div class="d-flex flex-wrap gap-3 align-items-start justify-content-between mb-3">
+            <h2 id="resumen-titulo" class="h4 mb-0">Resumen de cuenta</h2>
+            <div id="seleccion-cuenta" hidden>
+              <label for="cuenta-activa" class="form-label">Cuenta activa</label>
+              <select id="cuenta-activa" class="form-select"></select>
+            </div>
+          </div>
+          <p class="mb-1 banca-texto-secundario">Saldo disponible</p>
+          <p id="saldo-cuenta" class="banca-importe mb-4">—</p>
+          <dl class="row mb-0">
+            <div class="col-sm-6 mb-2"><dt>Titular</dt><dd id="titular-cuenta">—</dd></div>
+            <div class="col-sm-6 mb-2"><dt>Número de cuenta</dt><dd id="numero-cuenta">—</dd></div>
+            <div class="col-sm-6"><dt>Tipo</dt><dd id="tipo-cuenta">—</dd></div>
+            <div class="col-sm-6"><dt>Estado</dt><dd id="estado-cuenta">—</dd></div>
+          </dl>
+          <p id="aviso-cuenta" class="mb-0" role="status" hidden></p>
+        </section>
+      </div>
+
+      <div class="col-lg-5">
+        <section id="transferencia" class="banca-panel h-100" aria-labelledby="transferir-titulo">
+          <h2 id="transferir-titulo" class="h4 mb-3">Transferir</h2>
+          <p class="text-body-secondary">Origen <strong id="origen-visible">—</strong></p>
+          <form id="formulario-transferencia" method="post">
+            <div class="mb-3">
+              <label for="cuenta-destino" class="form-label">Número de cuenta destino</label>
+              <input id="cuenta-destino" name="cuentaDestino" class="form-control" inputmode="numeric" maxlength="20" required>
+            </div>
+            <div class="mb-3">
+              <label for="monto-transferencia" class="form-label">Monto (COP)</label>
+              <div class="input-group">
+                <span class="input-group-text" aria-hidden="true">$</span>
+                <input id="monto-transferencia" name="monto" class="form-control" inputmode="decimal" maxlength="16" placeholder="0,00" required>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="descripcion-transferencia" class="form-label">Descripción (opcional)</label>
+              <input id="descripcion-transferencia" name="descripcion" class="form-control" maxlength="255">
+            </div>
+            <button class="btn btn-primary" type="submit" disabled>Transferir</button>
+            <p class="mt-2 mb-0" role="status" data-aviso hidden></p>
+          </form>
+        </section>
+      </div>
+    </div>
+
+    <section id="movimientos" class="banca-panel mb-4" aria-labelledby="movimientos-titulo">
+      <h2 id="movimientos-titulo" class="h4 mb-3">Movimientos de la cuenta</h2>
+      <p id="aviso-movimientos" role="status" hidden></p>
+      <div class="table-responsive">
+        <table class="table align-middle">
+          <thead><tr><th scope="col">Fecha y hora</th><th scope="col">Tipo</th>
+            <th scope="col">Descripción</th><th scope="col">Monto</th><th scope="col">Saldo resultante</th></tr></thead>
+          <tbody id="filas-movimientos"></tbody>
+        </table>
+      </div>
+      <div class="d-flex flex-wrap align-items-center justify-content-end gap-2">
+        <button id="movimientos-anterior" class="btn btn-outline-secondary btn-sm" type="button" disabled>Anterior</button>
+        <span id="movimientos-pagina" aria-live="polite"></span>
+        <button id="movimientos-siguiente" class="btn btn-outline-secondary btn-sm" type="button" disabled>Siguiente</button>
       </div>
     </section>
+
+    <div id="perfil" class="row g-4">
+      <div class="col-lg-6">
+        <section class="banca-panel h-100" aria-labelledby="perfil-titulo">
+          <h2 id="perfil-titulo" class="h4 mb-3">Perfil</h2>
+          <dl>
+            <dt>Nombre completo</dt><dd id="perfil-nombre">—</dd>
+            <dt>Documento</dt><dd id="perfil-documento">—</dd>
+          </dl>
+          <form id="formulario-perfil" method="post">
+            <div class="mb-3">
+              <label for="perfil-correo" class="form-label">Correo</label>
+              <input id="perfil-correo" name="correo" type="email" class="form-control" maxlength="100" required>
+            </div>
+            <div class="mb-3">
+              <label for="perfil-telefono" class="form-label">Teléfono</label>
+              <input id="perfil-telefono" name="telefono" type="tel" class="form-control" maxlength="20" required>
+            </div>
+            <button class="btn btn-primary" type="submit" disabled>Guardar perfil</button>
+            <p class="mt-2 mb-0" role="status" data-aviso hidden></p>
+          </form>
+        </section>
+      </div>
+      <div class="col-lg-6">
+        <section class="banca-panel h-100" aria-labelledby="seguridad-titulo">
+          <h2 id="seguridad-titulo" class="h4 mb-3">Cambiar contraseña</h2>
+          <p class="text-body-secondary">Al guardar, tendrás que volver a iniciar sesión.</p>
+          <form id="formulario-contrasena" method="post">
+            <div class="mb-3">
+              <label for="contrasena-actual" class="form-label">Contraseña actual</label>
+              <input id="contrasena-actual" name="contrasenaActual" type="password" class="form-control" autocomplete="current-password" maxlength="72" required>
+            </div>
+            <div class="mb-3">
+              <label for="nueva-contrasena" class="form-label">Nueva contraseña</label>
+              <input id="nueva-contrasena" name="nuevaContrasena" type="password" class="form-control" autocomplete="new-password" minlength="12" maxlength="72" required>
+            </div>
+            <button class="btn btn-outline-primary" type="submit">Cambiar contraseña</button>
+            <p class="mt-2 mb-0" role="status" data-aviso hidden></p>
+          </form>
+        </section>
+      </div>
+    </div>
   </main>
 </body>
 </html>

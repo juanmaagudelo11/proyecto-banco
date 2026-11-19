@@ -13,6 +13,9 @@ const { crearRutasAutenticacion } = require('./rutas/autenticacionRutas');
 const { crearServicioAdmin } = require('./servicios/adminServicio');
 const { crearControladorAdmin } = require('./controladores/adminControlador');
 const { crearRutasAdmin } = require('./rutas/adminRutas');
+const { crearServicioBanca } = require('./servicios/bancaServicio');
+const { crearControladorCliente } = require('./controladores/clienteControlador');
+const { crearRutasCliente } = require('./rutas/clienteRutas');
 const { crearVerificadorSesion } = require('./intermediarios/verificarSesion');
 const { verificarRol } = require('./intermediarios/verificarRol');
 const { manejarErrores } = require('./intermediarios/manejarErrores');
@@ -64,6 +67,8 @@ function crearAplicacion(verificarMySql, {
   aplicacion.use('/api/auth', leerCookies(), crearRutasAutenticacion(controlador, verificarSesion, origen));
   const admin = crearControladorAdmin(crearServicioAdmin(conexiones));
   aplicacion.use('/api/admin', leerCookies(), crearRutasAdmin(admin, verificarSesion, origen));
+  const cliente = crearControladorCliente(crearServicioBanca(conexiones), nombreCookie, cookie);
+  aplicacion.use('/api/banca', leerCookies(), crearRutasCliente(cliente, verificarSesion, origen));
 
   function servirArchivo(...segmentos) {
     const archivo = ruta.join(carpetaFrontend, ...segmentos);

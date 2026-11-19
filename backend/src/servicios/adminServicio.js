@@ -1,31 +1,13 @@
 const { randomInt } = require('node:crypto');
 const bcrypt = require('bcrypt');
 const administracion = require('../modelos/administracion');
-const { buscarUsuarioPorId } = require('../modelos/usuario');
-const { listarCuentasPorUsuario } = require('../modelos/cuenta');
+const { enTransaccion } = require('../baseDatos/transaccion');
+const { buscarUsuarioPorId, bloquearUsuario } = require('../modelos/usuario');
+const { listarCuentasPorUsuario, localizarCuenta, bloquearCuenta, actualizarSaldo } = require('../modelos/cuenta');
 const { ErrorApi } = require('./errorApi');
 const { aCentavos, aDecimal, maximoCentavos } = require('./importes');
 
 const tamanoPagina = 20;
-
-async function enTransaccion(grupo, operacion) {
-  const conexion = await grupo.getConnection();
-  try {
-    await conexion.beginTransaction();
-    const resultado = await operacion(conexion);
-    await conexion.commit();
-    return resultado;
-  } catch (error) {
-    try {
-      await conexion.rollback();
-    } catch {
-      conexion.destroy();
-    }
-    throw error;
-  } finally {
-    conexion.release();
-  }
-}
 
 function respuestaPaginada(filas, pagina) {
   return { elementos: filas.slice(0, tamanoPagina), pagina, hayMas: filas.length > tamanoPagina };
@@ -103,10 +85,10 @@ function crearServicioAdmin(grupo) {
 
   async function editarCliente(idUsuario, cambios) {
     await enTransaccion(grupo, async (conexion) => {
-      const usuario = await administracion.bloquearUsuario(conexion, idUsuario);
+      const usuario = await bloquearUsuario(conexion, idUsuario);
       if (usuario?.rol !== 'CLIENTE') throw new ErrorApi(404, 'Cliente no encontrado.');
       if (cambios.idCuenta !== null) {
-        const cuenta = await administracion.bloquearCuenta(conexion, cambios.idCuenta, idUsuario);
+        const cuenta = await bloquearCuenta(conexion, cambios.idCuenta, idUsuario);
         if (!cuenta) throw new ErrorApi(404, 'Cuenta no encontrada para este cliente.');
         await administracion.actualizarEstadoCuenta(conexion, cambios.idCuenta, idUsuario, cambios.estadoCuenta);
       }
@@ -127,11 +109,11 @@ function crearServicioAdmin(grupo) {
 
   async function consignar({ numeroCuenta, monto, descripcion }) {
     return enTransaccion(grupo, async (conexion) => {
-      const destino = await administracion.localizarCuenta(conexion, numeroCuenta);
+      const destino = await localizarCuenta(conexion, numeroCuenta);
       if (!destino) throw new ErrorApi(404, 'Cuenta no encontrada.');
 
-      const titular = await administracion.bloquearUsuario(conexion, destino.id_usuario);
-      const cuenta = await administracion.bloquearCuenta(conexion, destino.id_cuenta, destino.id_usuario);
+      const titular = await bloquearUsuario(conexion, destino.id_usuario);
+      const cuenta = await bloquearCuenta(conexion, destino.id_cuenta, destino.id_usuario);
       if (!cuenta) throw new ErrorApi(404, 'Cuenta no encontrada.');
       if (titular?.estado !== 'ACTIVO' || cuenta.estado !== 'ACTIVO') {
         throw new ErrorApi(403, 'El titular y la cuenta deben estar activos.');
@@ -141,7 +123,7 @@ function crearServicioAdmin(grupo) {
       if (suma > maximoCentavos) throw new ErrorApi(409, 'La consignación excede el saldo máximo de la cuenta.');
       const saldoResultante = aDecimal(suma);
       const importe = aDecimal(monto);
-      await administracion.actualizarSaldo(conexion, destino.id_cuenta, saldoResultante);
+      await actualizarSaldo(conexion, destino.id_cuenta, saldoResultante);
       const idMovimiento = await administracion.registrarConsignacion(
         conexion, destino.id_cuenta, importe, cuenta.saldo, saldoResultante, descripcion
       );

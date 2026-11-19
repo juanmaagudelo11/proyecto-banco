@@ -12,7 +12,8 @@
     "semillas:generar": "node herramientas/generarSemillas.js",
     "test:esquema": "node --test pruebasIntegracion/esquema.js",
     "test:autenticacion": "node --test pruebasIntegracion/autenticacion.js",
-    "test:admin": "node --test pruebasIntegracion/admin.js"
+    "test:admin": "node --test pruebasIntegracion/admin.js",
+    "test:banca": "node --test pruebasIntegracion/banca.js"
   },
   "dependencies": {
     "bcrypt": "^6.0.0",

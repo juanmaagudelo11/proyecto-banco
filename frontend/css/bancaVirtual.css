@@ -1,0 +1,22 @@
+body.banca { background: #f2f5f9; }
+
+.banca-encabezado { background: linear-gradient(115deg, #152843, #19556a); }
+
+.banca-panel {
+  background: white;
+  padding: clamp(1rem, 3vw, 1.5rem);
+  border: 1px solid #dce5ef;
+  border-radius: .85rem;
+}
+
+.banca-saldo {
+  background: linear-gradient(145deg, #132c49, #204e67);
+  color: white;
+  border-color: transparent;
+}
+
+.banca-saldo dt, .banca-texto-secundario { color: #dee9f2; }
+.banca-importe { font-size: clamp(1.8rem, 5vw, 3rem); font-weight: 700; overflow-wrap: anywhere; }
+.banca .table th { white-space: nowrap; background: #edf2f8; color: #213951; }
+.banca .table td { min-width: 6rem; overflow-wrap: anywhere; }
+.banca dd { overflow-wrap: anywhere; }

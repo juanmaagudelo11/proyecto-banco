@@ -102,4 +102,27 @@
 
 **No ejecutadas.** La demostración en la base activa del usuario y en otros navegadores. La ejecución en Edge usó un cliente ficticio y una base aislada. El procedimiento de permisos, arranque y prueba manual está en [README.md](../README.md#fase-4--administración-en-xampp).
 
-**Pendiente.** Aprobación expresa de la fase 4. Fase 5 sin iniciar.
+**Cierre.** El usuario aprobó las pruebas de la fase 4 y autorizó la fase 5.
+
+## Fase 5 — Banca virtual y transferencias
+
+**Estado técnico: APROBADA.** Alcance autorizado tras la verificación de la fase 4.
+
+**Requisitos cubiertos.** RF-09 a RF-12 y RN-01 a RN-07 en el alcance de banca virtual. Se verificaron CP-07, la parte de transferencias de CP-08 y CP-09.
+
+**Implementación.** Resumen de cuentas propias, selector de cuenta activa, historial privado paginado, edición de correo y teléfono y cambio de contraseña con revocación de las sesiones web. Las transferencias validan titularidad, estados y fondos. En una transacción confirman dos saldos, un registro de transferencia y dos movimientos. Las pantallas usan el formato COP compartido.
+
+**Archivos de la fase.** Backend en `src/baseDatos/transaccion.js`, `src/controladores/clienteControlador.js`, `src/rutas/clienteRutas.js`, `src/servicios/bancaServicio.js`, `src/intermediarios/validarEscritura.js`, `src/modelos/{cuenta,movimiento,sesion,transferencia,usuario}.js`, `src/app.js` y `pruebasIntegracion/banca.js`. La fase reutiliza los bloqueos y el validador en Administración, y coordina el inicio web con la revocación por contraseña. Frontend en `paginas/bancaVirtual.html`, `css/bancaVirtual.css`, `js/bancaVirtual.js`, `js/formatoMonetario.js` y el importador administrativo. Se actualizó `backend/package.json` y la documentación.
+
+| Verificación | Comando o procedimiento | Resultado |
+| --- | --- | --- |
+| Banca virtual sobre MariaDB | `npm.cmd run test:banca` con MariaDB 10.4.32 y base vacía aislada | **APROBADA**. 8 de 8 comprobaciones del ejecutor. |
+| Banca virtual sobre MySQL | `npm.cmd run test:banca` con MySQL 8.4.13 y base vacía aislada | **APROBADA**. 8 de 8 comprobaciones del ejecutor. |
+| Privacidad, perfil y sesión | Casos de autorización y contraseña de `npm.cmd run test:banca` | **APROBADA** en ambos motores. Se rechazó acceso ajeno y edición de campos protegidos. El cambio de contraseña invalidó dos sesiones activas y la contraseña anterior. |
+| Atomicidad y concurrencia | Solicitudes en direcciones opuestas, intentos simultáneos de doble gasto y fallo inyectado al escribir el crédito | **APROBADA** en ambos motores. Las dos transferencias cruzadas se confirmaron. Del doble intento se confirmó una sola transferencia. El fallo revirtió saldos y registros. |
+| Regresiones | `npm.cmd test` más `npm.cmd run test:esquema`, `npm.cmd run test:autenticacion` y `npm.cmd run test:admin` en bases aisladas de ambos motores | **APROBADA**. 7 de 7 del backend y, por motor, 8 de 8 del esquema, 6 de 6 de autenticación y 7 de 7 de Administración. |
+| Demostración en navegador | Edge con Express y MariaDB 10.4.32 aislada, usando los permisos mínimos de la guía | **APROBADA**. Selector, saldo COP, historial, transferencia, perfil y reingreso con contraseña nueva. Vista comprobada a 390 px sin desplazamiento horizontal general. |
+
+**No ejecutadas.** Prueba en la base activa del usuario y en otros navegadores. El procedimiento de permisos, arranque y prueba manual está en [README.md](../README.md#fase-5--banca-virtual-y-transferencias-en-xampp).
+
+**Pendiente.** Aprobación expresa de la fase 5. Fase 6 sin iniciar.
