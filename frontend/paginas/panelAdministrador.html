@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Panel de administración | Simulador Bancario Web</title>
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/estilos.css">
+  <link rel="stylesheet" href="/css/administrador.css">
+  <script src="/js/sesion.js" defer></script>
+  <script src="/js/administrador.js" type="module"></script>
+</head>
+<body class="admin">
+  <header class="admin-encabezado text-white">
+    <div class="container py-4 py-lg-5">
+      <div class="d-flex flex-wrap gap-3 align-items-start justify-content-between">
+        <div>
+          <p class="mb-2 text-white-50">Simulador Bancario Web</p>
+          <h1 class="display-6 mb-2">Panel de administración</h1>
+          <p id="nombre-usuario" class="mb-0" hidden></p>
+        </div>
+        <button id="cerrar-sesion" type="button" class="btn btn-outline-light">Cerrar sesión</button>
+      </div>
+      <p id="aviso-sesion" role="alert" class="alert alert-danger mt-3 mb-0" hidden></p>
+      <nav aria-label="Secciones del panel" class="d-flex flex-wrap gap-3 mt-4">
+        <a class="link-light" href="#clientes">Clientes</a>
+        <a class="link-light" href="#consignaciones">Consignaciones</a>
+        <a class="link-light" href="#historial">Historial</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container py-4 py-lg-5">
+    <section aria-labelledby="resumen-titulo" class="mb-4">
+      <h2 id="resumen-titulo" class="h4 mb-3">Resumen del banco</h2>
+      <dl class="admin-metricas mb-0">
+        <div class="admin-metrica"><dt>Clientes registrados</dt><dd id="clientesTotales">—</dd></div>
+        <div class="admin-metrica"><dt>Cuentas activas</dt><dd id="cuentasActivas">—</dd></div>
+        <div class="admin-metrica"><dt>Clientes bloqueados</dt><dd id="clientesBloqueados">—</dd></div>
+        <div class="admin-metrica"><dt>Cuentas bloqueadas</dt><dd id="cuentasBloqueadas">—</dd></div>
+        <div class="admin-metrica"><dt>Saldo global</dt><dd id="saldoGlobal">—</dd></div>
+      </dl>
+      <p id="aviso-metricas" role="status" class="mt-2 mb-0 text-danger" hidden></p>
+    </section>
+
+    <section id="clientes" class="admin-panel mb-4" aria-labelledby="clientes-titulo">
+      <div class="d-flex flex-wrap gap-3 justify-content-between align-items-center mb-3">
+        <h2 id="clientes-titulo" class="h4 mb-0">Clientes</h2>
+        <button type="button" id="abrir-registro" class="btn btn-primary">Nuevo cliente</button>
+      </div>
+      <form id="buscar-clientes" role="search" class="d-flex flex-wrap align-items-end gap-2 mb-3">
+        <div class="flex-grow-1">
+          <label class="form-label" for="buscar">Buscar por nombre, documento, correo o cuenta</label>
+          <input class="form-control" type="search" id="buscar" name="buscar" maxlength="120">
+        </div>
+        <button class="btn btn-outline-primary" type="submit">Buscar</button>
+      </form>
+      <p id="aviso-clientes" role="status" class="mb-2" hidden></p>
+      <div class="table-responsive">
+        <table class="table align-middle">
+          <thead><tr><th scope="col">Cliente</th><th scope="col">Documento</th><th scope="col">Estado</th>
+            <th scope="col">Cuentas y saldos</th><th scope="col">Acciones</th></tr></thead>
+          <tbody id="filas-clientes"></tbody>
+        </table>
+      </div>
+      <div class="admin-paginacion" id="paginar-clientes">
+        <button class="btn btn-outline-secondary btn-sm" type="button" data-direccion="-1">Anterior</button>
+        <span data-pagina aria-live="polite"></span>
+        <button class="btn btn-outline-secondary btn-sm" type="button" data-direccion="1">Siguiente</button>
+      </div>
+    </section>
+
+    <section id="consignaciones" class="admin-panel mb-4" aria-labelledby="consignar-titulo">
+      <h2 id="consignar-titulo" class="h4 mb-3">Registrar consignación</h2>
+      <form id="formulario-consignacion" method="post" class="row gy-3 align-items-end">
+        <div class="col-md-3">
+          <label class="form-label" for="destino">Número de cuenta</label>
+          <input id="destino" name="numeroCuenta" class="form-control" inputmode="numeric" maxlength="20" required>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label" for="monto">Monto (COP)</label>
+          <div class="input-group">
+            <span class="input-group-text" aria-hidden="true">$</span>
+            <input id="monto" name="monto" class="form-control" inputmode="decimal" maxlength="16" placeholder="0,00" required>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label" for="descripcion">Descripción</label>
+          <input id="descripcion" name="descripcion" class="form-control" maxlength="255" required>
+        </div>
+        <div class="col-12">
+          <button class="btn btn-primary" type="submit">Registrar consignación</button>
+          <p class="mt-2 mb-0" data-aviso role="status" hidden></p>
+        </div>
+      </form>
+    </section>
+
+    <section id="historial" class="admin-panel" aria-labelledby="historial-titulo">
+      <h2 id="historial-titulo" class="h4 mb-3">Historial de movimientos</h2>
+      <form id="filtrar-historial" class="row gy-3 mb-3 align-items-end">
+        <div class="col-sm-6 col-lg">
+          <label class="form-label" for="desde">Desde</label>
+          <input type="date" id="desde" name="desde" class="form-control">
+        </div>
+        <div class="col-sm-6 col-lg">
+          <label class="form-label" for="hasta">Hasta</label>
+          <input type="date" id="hasta" name="hasta" class="form-control">
+        </div>
+        <div class="col-sm-6 col-lg">
+          <label class="form-label" for="tipo-historial">Tipo</label>
+          <select id="tipo-historial" name="tipo" class="form-select">
+            <option value="">Todos</option><option value="CONSIGNACION">Consignación</option>
+            <option value="RETIRO">Retiro</option><option value="TRANSFERENCIA_ENVIADA">Transferencia enviada</option>
+            <option value="TRANSFERENCIA_RECIBIDA">Transferencia recibida</option>
+          </select>
+        </div>
+        <div class="col-sm-6 col-lg">
+          <label class="form-label" for="cuenta-historial">Número de cuenta</label>
+          <input id="cuenta-historial" name="numeroCuenta" class="form-control" maxlength="20">
+        </div>
+        <div class="col-auto"><button class="btn btn-outline-primary" type="submit">Filtrar</button></div>
+      </form>
+      <p id="aviso-historial" role="status" class="mb-2" hidden></p>
+      <div class="table-responsive">
+        <table class="table align-middle">
+          <thead><tr><th scope="col">Fecha</th><th scope="col">Cuenta</th><th scope="col">Tipo</th>
+            <th scope="col">Descripción</th><th scope="col">Monto</th><th scope="col">Saldo resultante</th></tr></thead>
+          <tbody id="filas-historial"></tbody>
+        </table>
+      </div>
+      <div class="admin-paginacion" id="paginar-historial">
+        <button class="btn btn-outline-secondary btn-sm" type="button" data-direccion="-1">Anterior</button>
+        <span data-pagina aria-live="polite"></span>
+        <button class="btn btn-outline-secondary btn-sm" type="button" data-direccion="1">Siguiente</button>
+      </div>
+    </section>
+  </main>
+
+  <dialog id="registro-cliente" class="admin-dialogo" aria-labelledby="registro-titulo">
+    <div class="d-flex justify-content-between align-items-center gap-3 mb-3">
+      <h2 id="registro-titulo" class="h4 mb-0">Nuevo cliente y cuenta</h2>
+      <button class="btn-close" type="button" data-cerrar aria-label="Cerrar"></button>
+    </div>
+    <form id="formulario-registro" method="post" class="row gy-3">
+      <div class="col-12"><label for="nuevo-nombre" class="form-label">Nombre completo</label>
+        <input id="nuevo-nombre" name="nombreCompleto" class="form-control" maxlength="120" required></div>
+      <div class="col-sm-6"><label for="nuevo-documento" class="form-label">Documento</label>
+        <input id="nuevo-documento" name="documento" class="form-control" maxlength="20" required></div>
+      <div class="col-sm-6"><label for="nuevo-telefono" class="form-label">Teléfono</label>
+        <input id="nuevo-telefono" name="telefono" type="tel" class="form-control" maxlength="20" required></div>
+      <div class="col-12"><label for="nuevo-correo" class="form-label">Correo</label>
+        <input id="nuevo-correo" name="correo" type="email" class="form-control" maxlength="100" required></div>
+      <div class="col-sm-6"><label for="nueva-clave" class="form-label">Contraseña</label>
+        <input id="nueva-clave" name="contrasena" type="password" class="form-control" autocomplete="new-password" minlength="12" maxlength="72" required></div>
+      <div class="col-sm-6"><label for="nuevo-pin" class="form-label">PIN ATM</label>
+        <input id="nuevo-pin" name="pinAtm" type="password" class="form-control" autocomplete="off" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" required></div>
+      <div class="col-sm-6"><label for="nuevo-tipo" class="form-label">Tipo de cuenta</label>
+        <select id="nuevo-tipo" name="tipoCuenta" class="form-select">
+          <option value="AHORROS">Ahorros</option><option value="CORRIENTE">Corriente</option>
+        </select></div>
+      <div class="col-sm-6"><label for="nuevo-saldo" class="form-label">Saldo inicial (COP)</label>
+        <div class="input-group">
+          <span class="input-group-text" aria-hidden="true">$</span>
+          <input id="nuevo-saldo" name="saldoInicial" class="form-control" inputmode="decimal" maxlength="16" value="0,00" required>
+        </div>
+      </div>
+      <div class="col-12">
+        <p data-aviso role="status" class="mb-2" hidden></p>
+        <button type="submit" class="btn btn-primary">Crear cliente</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="detalle-cliente" class="admin-dialogo" aria-labelledby="detalle-titulo">
+    <div class="d-flex justify-content-between align-items-center gap-3 mb-3">
+      <h2 id="detalle-titulo" class="h4 mb-0">Detalle del cliente</h2>
+      <button class="btn-close" type="button" data-cerrar aria-label="Cerrar"></button>
+    </div>
+    <p id="detalle-documento" class="text-body-secondary"></p>
+    <p id="aviso-detalle" role="status" hidden></p>
+    <form id="formulario-edicion" method="post" class="row gy-3" hidden>
+      <div class="col-12"><label for="editar-nombre" class="form-label">Nombre completo</label>
+        <input id="editar-nombre" name="nombreCompleto" class="form-control" maxlength="120" required></div>
+      <div class="col-sm-6"><label for="editar-correo" class="form-label">Correo</label>
+        <input id="editar-correo" name="correo" type="email" class="form-control" maxlength="100" required></div>
+      <div class="col-sm-6"><label for="editar-telefono" class="form-label">Teléfono</label>
+        <input id="editar-telefono" name="telefono" type="tel" class="form-control" maxlength="20" required></div>
+      <div class="col-sm-6"><label for="editar-estado" class="form-label">Estado del cliente</label>
+        <select id="editar-estado" name="estadoUsuario" class="form-select"><option value="ACTIVO">Activo</option><option value="INACTIVO">Inactivo</option><option value="BLOQUEADO">Bloqueado</option></select></div>
+      <div class="col-12">
+        <p data-aviso role="status" class="mb-2" hidden></p>
+        <button type="submit" class="btn btn-primary">Guardar cliente</button>
+      </div>
+    </form>
+    <div id="detalle-cuentas" class="mt-4"></div>
+  </dialog>
+
+  <template id="estado-cuenta">
+    <form class="border rounded-3 p-3 mb-2" method="post">
+      <p class="fw-semibold mb-2" data-cuenta></p>
+      <div class="d-flex flex-wrap gap-2 align-items-end">
+        <label class="form-label mb-0">Estado de la cuenta
+          <select name="estadoCuenta" class="form-select mt-1"><option value="ACTIVO">Activo</option><option value="INACTIVO">Inactivo</option><option value="BLOQUEADO">Bloqueado</option></select>
+        </label>
+        <button class="btn btn-outline-primary" type="submit">Guardar estado</button>
+      </div>
+      <p data-aviso role="status" class="mt-2 mb-0" hidden></p>
+    </form>
+  </template>
+</body>
+</html>

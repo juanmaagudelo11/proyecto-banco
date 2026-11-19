@@ -1,0 +1,47 @@
+body.admin { background: #f2f5f9; }
+
+.admin-encabezado {
+  background: linear-gradient(115deg, #122541, #173c5e);
+}
+
+.admin-metricas {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 11rem), 1fr));
+  gap: .75rem;
+}
+
+.admin-metrica,
+.admin-panel {
+  background: white;
+  border: 1px solid #dce5ef;
+  border-radius: .85rem;
+}
+
+.admin-metrica { padding: .9rem 1rem; }
+.admin-metrica dt { font-size: .9rem; color: #41536b; }
+.admin-metrica dd { margin: .4rem 0 0; font-size: 1.35rem; font-weight: 700; overflow-wrap: anywhere; }
+
+.admin-panel { padding: clamp(1rem, 3vw, 1.5rem); }
+.admin .table thead th { background: #edf2f8; color: #213951; }
+.admin .table th { white-space: nowrap; }
+.admin .table td { min-width: 6rem; overflow-wrap: anywhere; }
+.admin .table td:last-child { white-space: nowrap; }
+
+.admin-paginacion {
+  display: flex;
+  gap: .65rem;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.admin-dialogo {
+  box-sizing: border-box;
+  width: min(38rem, calc(100% - 1.5rem));
+  max-height: calc(100% - 1.5rem);
+  padding: clamp(1rem, 3vw, 1.5rem);
+  border: 1px solid #dce5ef;
+  border-radius: .85rem;
+  color: var(--bs-body-color);
+}
+
+.admin-dialogo::backdrop { background: #16263aa8; }

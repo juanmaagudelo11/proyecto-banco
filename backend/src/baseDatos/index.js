@@ -1,6 +1,6 @@
 const mysql = require('mysql2/promise');
 
-function crearVerificadorMySql(entorno = process.env) {
+function crearGrupoConexiones(entorno = process.env) {
   const {
     MYSQL_HOST = '127.0.0.1',
     MYSQL_PUERTO = '3306',
@@ -12,10 +12,10 @@ function crearVerificadorMySql(entorno = process.env) {
 
   if (!MYSQL_BASE || !MYSQL_USUARIO || !MYSQL_CONTRASENA ||
       !Number.isInteger(puerto) || puerto < 1 || puerto > 65535) {
-    return async () => false;
+    return null;
   }
 
-  const conexiones = mysql.createPool({
+  return mysql.createPool({
     host: MYSQL_HOST,
     port: puerto,
     database: MYSQL_BASE,
@@ -25,8 +25,12 @@ function crearVerificadorMySql(entorno = process.env) {
     connectionLimit: 4,
     waitForConnections: false
   });
+}
 
+function verificarConexion(conexiones) {
   return async function verificarMySql() {
+    if (!conexiones) return false;
+
     try {
       await conexiones.query({ sql: 'SELECT 1', timeout: 2000 });
       return true;
@@ -36,4 +40,8 @@ function crearVerificadorMySql(entorno = process.env) {
   };
 }
 
-module.exports = { crearVerificadorMySql };
+function crearVerificadorMySql(entorno) {
+  return verificarConexion(crearGrupoConexiones(entorno));
+}
+
+module.exports = { crearGrupoConexiones, crearVerificadorMySql, verificarConexion };
