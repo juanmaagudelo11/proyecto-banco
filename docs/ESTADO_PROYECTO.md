@@ -149,4 +149,27 @@
 
 **No ejecutadas.** Prueba en la base activa del usuario, otros navegadores y HTTPS de extremo a extremo. El procedimiento de migración, permisos y prueba está en [README.md](../README.md#fase-6--cajero-atm-en-xampp).
 
-**Pendiente.** Aprobación expresa de la fase 6. Fase 7 sin iniciar.
+**Cierre.** El usuario aprobó las pruebas de la fase 6 y autorizó la fase 7.
+
+## Fase 7 — Integración, concurrencia y pruebas de seguridad
+
+**Estado técnico: APROBADA.** El usuario autorizó la fase después de verificar el cajero.
+
+**Requisitos cubiertos.** CP-01 a CP-10, RF-01 a RF-04 y RF-06 a RF-16 en el recorrido integrado y suites por módulo. Verificaciones de RN-01 a RN-07, con énfasis en autorización, estados, exactitud monetaria, atomicidad e inmutabilidad.
+
+**Archivos de la fase.** Se añadió `backend/pruebasIntegracion/integracion.js` y el comando correspondiente en `backend/package.json`. Se corrigió el grupo SQL en `backend/src/baseDatos/index.js` y se documentó la evidencia en `docs/PRUEBAS_FASE_7.md`, `docs/decisiones.md`, `README.md` y este registro.
+
+**Incidencia resuelta.** La primera ejecución reprodujo HTTP 500 en lecturas y escrituras concurrentes al ocupar las cuatro conexiones. Se añadió una cola acotada de hasta 32 solicitudes y una espera máxima de dos segundos para la comprobación de salud. La repetición confirmó la coherencia de los tres módulos.
+
+| Verificación | Resultado real |
+| --- | --- |
+| `npm.cmd run test:integracion` | **APROBADA**. 18 de 18 en MariaDB 10.4.32 y 18 de 18 en MySQL 8.4.13, incluidas CP-01 a CP-10 y privilegios mínimos SQL. |
+| `npm.cmd run test:esquema`, `test:autenticacion`, `test:admin`, `test:banca` y `test:atm` | **APROBADA**. 37 comprobaciones de regresión por motor. |
+| `npm.cmd test` y `npm.cmd audit --omit=dev --audit-level=low` | **APROBADA**. 7 de 7 pruebas y cero avisos reportados por el registro de npm. |
+| HTTPS local con certificado de prueba y proxy de loopback | **APROBADA**. Se comprobó certificado validado por el cliente, login web y ATM, cookies `Secure`, consulta y revocación. |
+| `git check-ignore` y `git ls-files` para los archivos privados | **APROBADA**. `backend/.env` y `database.local.sql` están excluidos y fuera del índice. |
+
+**No ejecutadas.** Prueba en la base activa del usuario, comprobación visual en otros navegadores y despliegue HTTPS público. Las pruebas usaron bases temporales aisladas. Para repetir la suite y el flujo manual, consulta [la matriz de la fase 7](PRUEBAS_FASE_7.md).
+
+**Cierre.** El usuario aprobó las pruebas de la fase 7 el 18 de noviembre de 2026, tras verificar manualmente en la base activa: consignación de $100,50 y transferencia de $150,25 a la cuenta 9000000001, transferencia recibida en la cuenta 9000000002 y retiro de $50,25 en el cajero. Saldos finales confirmados en los tres módulos (administración, banca virtual y cajero): $225,00 y $575,25. Fase 8 autorizada.
+

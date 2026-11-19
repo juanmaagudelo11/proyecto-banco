@@ -1,4 +1,5 @@
 const mysql = require('mysql2/promise');
+const { setTimeout: esperar } = require('node:timers/promises');
 
 function crearGrupoConexiones(entorno = process.env) {
   const {
@@ -23,7 +24,8 @@ function crearGrupoConexiones(entorno = process.env) {
     password: MYSQL_CONTRASENA,
     connectTimeout: 2000,
     connectionLimit: 4,
-    waitForConnections: false
+    waitForConnections: true,
+    queueLimit: 32
   });
 }
 
@@ -31,11 +33,12 @@ function verificarConexion(conexiones) {
   return async function verificarMySql() {
     if (!conexiones) return false;
 
+    const cancelacion = new AbortController();
     try {
-      await conexiones.query({ sql: 'SELECT 1', timeout: 2000 });
-      return true;
-    } catch {
-      return false;
+      const consulta = conexiones.query({ sql: 'SELECT 1', timeout: 2000 }).then(() => true, () => false);
+      return await Promise.race([consulta, esperar(2000, false, { signal: cancelacion.signal, ref: false })]);
+    } finally {
+      cancelacion.abort();
     }
   };
 }

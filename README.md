@@ -297,3 +297,31 @@ Las escrituras requieren el encabezado `Origin` del simulador. El cajero usa una
 ### Repetir las pruebas de ATM
 
 Crea una base vacía `simulador_fase6_prueba` y define las variables `MYSQL_PRUEBA_*` de la fase 3 con ese nombre y una cuenta de instalación de prueba con permisos para crear tablas y triggers. Desde `backend`, ejecuta `npm.cmd run test:atm`. Para repetir, usa otra base vacía con el prefijo de pruebas, como `simulador_fase6_prueba_2`.
+
+## Fase 7 — Prueba integral de los tres módulos
+
+La suite integral usa una sola base aislada y ejecuta CP-01 a CP-10, concurrencia, autorización, inmutabilidad y reversión. [Matriz y evidencia](docs/PRUEBAS_FASE_7.md).
+
+1. En XAMPP o MySQL crea una base vacía `simulador_fase7_prueba`. Prepara una cuenta SQL de instalación de pruebas con contraseña y permisos para crear tablas y triggers en esa base.
+2. Para reproducir también la comprobación de privilegios mínimos, crea una segunda cuenta SQL `fase7_app` para `127.0.0.1`, con contraseña y sin privilegios iniciales. El instalador debe poder otorgarle permisos sobre la **base de prueba**. La suite concederá los permisos de aplicación al preparar las tablas.
+3. Desde la raíz, ejecuta en PowerShell. Si ejecutas la suite con una sola cuenta, omite las dos líneas de variables `*_APP`. En ese modo se omite únicamente la comprobación específica de privilegios SQL.
+
+```powershell
+Set-Location backend
+$env:MYSQL_PRUEBA_BASE = 'simulador_fase7_prueba'
+$env:MYSQL_PRUEBA_PUERTO = '3306'
+$env:MYSQL_PRUEBA_USUARIO = Read-Host 'Usuario SQL de instalación de pruebas'
+$env:MYSQL_PRUEBA_CONTRASENA = [System.Net.NetworkCredential]::new('', (Read-Host 'Contraseña SQL de instalación de pruebas' -AsSecureString)).Password
+$env:MYSQL_PRUEBA_USUARIO_APP = 'fase7_app'
+$env:MYSQL_PRUEBA_CONTRASENA_APP = [System.Net.NetworkCredential]::new('', (Read-Host 'Contraseña SQL de aplicación de pruebas' -AsSecureString)).Password
+try {
+    npm.cmd run test:integracion
+} finally {
+    Remove-Item Env:MYSQL_PRUEBA_CONTRASENA, Env:MYSQL_PRUEBA_USUARIO_APP, Env:MYSQL_PRUEBA_CONTRASENA_APP -ErrorAction SilentlyContinue
+}
+```
+
+Ejecuta el bloque completo en una sola terminal de PowerShell. Las variables `MYSQL_PRUEBA_*` se leen de esa terminal. Si el error indica que falta la base de prueba, define esas variables antes de ejecutar el comando. Si la base ya tiene tablas de una ejecución anterior, crea otra vacía con un sufijo nuevo y actualiza `MYSQL_PRUEBA_BASE`.
+
+La suite genera las credenciales ficticias e importa `database.sql` y las migraciones `003` y `006`. Necesita una base vacía en cada ejecución. Para repetir, crea `simulador_fase7_prueba_2` o usa otro sufijo. Para la demostración manual, usa tu base de demostración y el flujo de los tres módulos de [la matriz de pruebas](docs/PRUEBAS_FASE_7.md#demostración-manual-en-xampp).
+

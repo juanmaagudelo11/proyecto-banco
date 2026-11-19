@@ -48,3 +48,8 @@
 - El PIN se recibe como cadena de cuatro dígitos y se compara con bcrypt. Un número de cuenta desconocido recibe el mismo mensaje que un PIN incorrecto. Se limitan a cinco los intentos fallidos por cuenta y a veinte por IP cada quince minutos. Los contadores se guardan en memoria del proceso, como en el acceso web.
 - El retiro bloquea el titular y la cuenta en el orden compartido con los otros módulos. Comprueba la vigencia de la sesión y el saldo antes de confirmar. El débito, el movimiento y el registro de la solicitud, cuando lleva clave, se guardan en una transacción. La clave queda asociada a la sesión y devuelve el comprobante original en cada repetición.
 - El cajero muestra hasta cinco movimientos de la cuenta identificada. Los montos rápidos seleccionan 20.000, 50.000 o 100.000 COP y el importe personalizado admite hasta dos decimales positivos. La interfaz conserva el prefijo `$ ` y el formato de pesos colombianos.
+
+## Decisiones de la fase 7
+
+- Las pruebas integrales reprodujeron HTTP 500 al agotarse cuatro conexiones SQL. Se conserva el límite de cuatro conexiones y se permite una cola de hasta 32 solicitudes. La verificación de salud mantiene un límite de dos segundos incluyendo el tiempo de espera en la cola. [Configuración de grupos en mysql2](https://sidorares.github.io/node-mysql2/docs/examples/connections/create-pool).
+- La suite comparte una base por recorrido y coteja saldos e historial mediante consultas directas y las API de Administración, Banca virtual y ATM. Una segunda cuenta de prueba permite verificar la aplicación con privilegios de tabla y columna acotados.
