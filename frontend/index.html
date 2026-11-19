@@ -1,30 +1,436 @@
+
 <!doctype html>
 <html lang="es">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
   <title>Simulador Bancario Web</title>
+
+  <!-- BOOTSTRAP 5 -->
   <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+  <!-- ESTILOS PERSONALIZADOS -->
   <link rel="stylesheet" href="/css/estilos.css">
+  <link rel="stylesheet" href="/css/index.css">
+
+  <!-- JAVASCRIPT -->
   <script src="/js/api.js" defer></script>
 </head>
-<body>
-  <main class="container py-5">
-    <section class="card shadow-sm mx-auto panel-salud" aria-labelledby="titulo">
-      <div class="card-body p-4 p-md-5">
-        <h1 class="h2 mb-2" id="titulo">Simulador Bancario Web</h1>
-        <p class="text-body-secondary mb-4">Verifica el estado del entorno local.</p>
-        <dl class="mb-4" aria-live="polite">
-          <dt>Servidor HTTP</dt>
-          <dd id="estado-servidor">Pendiente</dd>
-          <dt>MySQL</dt>
-          <dd id="estado-base-datos">Pendiente</dd>
-        </dl>
-        <button id="verificar" class="btn btn-primary" type="button">Comprobar estado</button>
-        <a href="/inicio-sesion" class="btn btn-outline-primary">Iniciar sesión</a>
-        <a href="/cajero-atm" class="btn btn-outline-primary">Cajero ATM</a>
+
+<body class="inicio">
+
+  <!-- =====================================
+       ENCABEZADO PRINCIPAL
+  ====================================== -->
+
+  <header class="inicio-encabezado text-white">
+
+    <div class="container py-4">
+
+      <!-- BARRA SUPERIOR -->
+      <nav class="d-flex flex-wrap align-items-center
+                  justify-content-between gap-3"
+           aria-label="Navegación principal">
+
+        <a href="/" class="inicio-marca">
+
+          <span class="inicio-marca-icono"
+                aria-hidden="true">
+            🏦
+          </span>
+
+          <span>
+            SIMULADOR BANCARIO
+          </span>
+
+        </a>
+
+        <a href="/inicio-sesion"
+           class="btn btn-outline-light inicio-boton-nav">
+
+          Iniciar sesión
+          <span aria-hidden="true">→</span>
+
+        </a>
+
+      </nav>
+
+    </div>
+
+    <!-- SECCIÓN DE BIENVENIDA -->
+    <div class="container pt-4 pb-5 py-lg-5">
+
+      <div class="row align-items-center g-5">
+
+        <!-- LADO IZQUIERDO -->
+        <div class="col-lg-7">
+
+          <div class="inicio-etiqueta mb-4">
+            <span class="inicio-punto"></span>
+            BIENVENIDO A TU BANCA DIGITAL
+          </div>
+
+          <h1 id="titulo"
+              class="inicio-titulo mb-4">
+
+            Tu dinero.<br>
+            Tu futuro.<br>
+            <span>Tu banco.</span>
+
+          </h1>
+
+          <p class="inicio-descripcion mb-4">
+
+            Bienvenido a una nueva experiencia
+            bancaria. Gestiona tus cuentas,
+            consulta tus movimientos y realiza
+            operaciones desde una plataforma
+            moderna y fácil de utilizar.
+
+          </p>
+
+          <!-- BOTONES PRINCIPALES -->
+          <div class="d-flex flex-wrap gap-3">
+
+            <a href="/inicio-sesion"
+               class="btn inicio-boton-principal">
+
+              Acceder a mi cuenta
+              <span aria-hidden="true">→</span>
+
+            </a>
+
+            <a href="/cajero-atm"
+               class="btn btn-outline-light inicio-boton-secundario">
+
+              <span aria-hidden="true">💳</span>
+              Cajero ATM
+
+            </a>
+
+          </div>
+
+          <p class="inicio-nota mt-4 mb-0">
+            <span aria-hidden="true">✦</span>
+            Tu experiencia bancaria comienza aquí.
+          </p>
+
+        </div>
+
+        <!-- LADO DERECHO -->
+        <div class="col-lg-5">
+
+          <div class="inicio-tarjeta-bienvenida">
+
+            <div class="inicio-tarjeta-superior">
+
+              <div class="inicio-tarjeta-logo"
+                   aria-hidden="true">
+                🏦
+              </div>
+
+              <span class="inicio-tarjeta-etiqueta">
+                BANCA DIGITAL
+              </span>
+
+            </div>
+
+            <div class="inicio-tarjeta-centro">
+
+              <div class="inicio-icono-grande"
+                   aria-hidden="true">
+                💳
+              </div>
+
+              <h2>
+                Todo en un<br>
+                mismo lugar.
+              </h2>
+
+              <p>
+                Descubre una manera sencilla
+                de interactuar con tu banco.
+              </p>
+
+            </div>
+
+            <div class="inicio-tarjeta-beneficios">
+
+              <div class="inicio-beneficio">
+                <span aria-hidden="true">✦</span>
+                Consulta tus cuentas
+              </div>
+
+              <div class="inicio-beneficio">
+                <span aria-hidden="true">✦</span>
+                Realiza transferencias
+              </div>
+
+              <div class="inicio-beneficio">
+                <span aria-hidden="true">✦</span>
+                Utiliza el cajero virtual
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
       </div>
+
+    </div>
+
+  </header>
+
+  <!-- =====================================
+       CONTENIDO PRINCIPAL
+  ====================================== -->
+
+  <main class="container inicio-contenido py-5">
+
+    <!-- =====================================
+         NUESTROS SERVICIOS
+         PRIMERA SECCIÓN
+    ====================================== -->
+
+    <section aria-labelledby="servicios-titulo"
+             class="mb-5">
+
+      <div class="mb-4">
+
+        <span class="inicio-section-kicker">
+          NUESTROS SERVICIOS
+        </span>
+
+        <h2 id="servicios-titulo"
+            class="inicio-section-title h3 mb-2">
+
+          ¿Qué deseas hacer hoy?
+
+        </h2>
+
+        <p class="inicio-section-descripcion mb-0">
+
+          Accede a las herramientas disponibles
+          en tu simulador bancario.
+
+        </p>
+
+      </div>
+
+      <div class="row g-4">
+
+        <!-- BANCA VIRTUAL -->
+        <div class="col-md-6">
+
+          <article class="inicio-servicio h-100">
+
+            <div class="inicio-servicio-icono inicio-servicio-violeta"
+                 aria-hidden="true">
+              💻
+            </div>
+
+            <h3 class="h5 mt-4 mb-3">
+              Banca virtual
+            </h3>
+
+            <p>
+              Consulta tus saldos, revisa
+              movimientos, transfiere dinero
+              y administra tu información personal.
+            </p>
+
+            <a href="/inicio-sesion"
+               class="inicio-servicio-enlace">
+
+              Iniciar sesión
+              <span aria-hidden="true">→</span>
+
+            </a>
+
+          </article>
+
+        </div>
+
+        <!-- CAJERO ATM -->
+        <div class="col-md-6">
+
+          <article class="inicio-servicio h-100">
+
+            <div class="inicio-servicio-icono inicio-servicio-azul"
+                 aria-hidden="true">
+              🏧
+            </div>
+
+            <h3 class="h5 mt-4 mb-3">
+              Cajero ATM
+            </h3>
+
+            <p>
+              Ingresa con tu número de cuenta
+              y PIN para consultar tu saldo,
+              retirar efectivo y revisar operaciones.
+            </p>
+
+            <a href="/cajero-atm"
+               class="inicio-servicio-enlace">
+
+              Ir al cajero
+              <span aria-hidden="true">→</span>
+
+            </a>
+
+          </article>
+
+        </div>
+
+      </div>
+
     </section>
+
+    <!-- =====================================
+         MONITOREO DEL SISTEMA
+         SEGUNDA SECCIÓN - COMPACTA
+    ====================================== -->
+
+    <section class="inicio-monitoreo mx-auto"
+             aria-labelledby="estado-titulo">
+
+      <!-- ENCABEZADO DEL MONITOREO -->
+      <div class="d-flex flex-wrap
+                  justify-content-between
+                  align-items-center gap-3 mb-3">
+
+        <div>
+
+          <span class="inicio-section-kicker">
+            ESTADO DEL ENTORNO
+          </span>
+
+          <h2 id="estado-titulo"
+              class="inicio-section-title h5 mb-1">
+
+            Monitoreo del sistema
+
+          </h2>
+
+          <p class="inicio-section-descripcion mb-0">
+            Verifica las conexiones del entorno local.
+          </p>
+
+        </div>
+
+        <!-- BOTÓN PARA COMPROBAR -->
+        <button id="verificar"
+                class="btn btn-primary inicio-boton-verificar"
+                type="button">
+
+          <span aria-hidden="true">↻</span>
+          Comprobar estado
+
+        </button>
+
+      </div>
+
+      <!-- TARJETAS COMPACTAS -->
+      <div class="row g-3">
+
+        <!-- SERVIDOR HTTP -->
+        <div class="col-md-6">
+
+          <div class="inicio-estado-card inicio-monitor-card h-100">
+
+            <div class="d-flex align-items-center gap-3">
+
+              <div class="inicio-estado-icono inicio-icono-azul"
+                   aria-hidden="true">
+                🌐
+              </div>
+
+              <dl class="mb-0 flex-grow-1"
+                  aria-live="polite">
+
+                <dt class="inicio-estado-titulo mb-1">
+                  Servidor HTTP
+                </dt>
+
+                <dd id="estado-servidor"
+                    class="inicio-estado-valor mb-0">
+                  Pendiente
+                </dd>
+
+              </dl>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- MYSQL -->
+        <div class="col-md-6">
+
+          <div class="inicio-estado-card inicio-monitor-card h-100">
+
+            <div class="d-flex align-items-center gap-3">
+
+              <div class="inicio-estado-icono inicio-icono-turquesa"
+                   aria-hidden="true">
+                🗄️
+              </div>
+
+              <dl class="mb-0 flex-grow-1"
+                  aria-live="polite">
+
+                <dt class="inicio-estado-titulo mb-1">
+                  MySQL
+                </dt>
+
+                <dd id="estado-base-datos"
+                    class="inicio-estado-valor mb-0">
+                  Pendiente
+                </dd>
+
+              </dl>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
   </main>
+
+  <!-- =====================================
+       PIE DE PÁGINA
+  ====================================== -->
+
+  <footer class="inicio-footer">
+
+    <div class="container py-4">
+
+      <div class="d-flex flex-wrap align-items-center
+                  justify-content-between gap-3">
+
+        <p class="mb-0">
+          © Simulador Bancario Web
+        </p>
+
+        <p class="mb-0">
+          Proyecto de simulación bancaria
+        </p>
+
+      </div>
+
+    </div>
+
+  </footer>
+
 </body>
 </html>

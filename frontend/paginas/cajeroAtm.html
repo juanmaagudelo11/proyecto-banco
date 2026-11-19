@@ -1,95 +1,510 @@
+
 <!doctype html>
 <html lang="es">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
   <title>Cajero ATM | Simulador Bancario Web</title>
+
+  <!-- BOOTSTRAP 5 -->
   <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+  <!-- ESTILOS -->
   <link rel="stylesheet" href="/css/estilos.css">
   <link rel="stylesheet" href="/css/cajeroAtm.css">
+
+  <!-- JAVASCRIPT -->
   <script src="/js/cajeroAtm.js" type="module"></script>
 </head>
-<body class="atm">
-  <main class="container atm-contenedor py-4 py-lg-5">
-    <header class="d-flex flex-wrap align-items-end justify-content-between gap-3 mb-4">
-      <div>
-        <p class="atm-secundario mb-1">Simulador Bancario Web</p>
-        <h1 class="display-6 mb-0">Cajero ATM</h1>
-      </div>
-      <a class="link-light" href="/">Volver al inicio</a>
-    </header>
-    <p id="atm-aviso-general" role="status" class="atm-aviso mb-3" hidden></p>
 
-    <section id="atm-ingreso" class="atm-panel atm-ingreso" aria-labelledby="atm-ingreso-titulo" hidden>
-      <h2 id="atm-ingreso-titulo" class="h4 mb-3">Identifícate</h2>
+<body class="atm">
+
+  <!-- ENCABEZADO PRINCIPAL -->
+  <header class="atm-encabezado text-white">
+    <div class="container atm-contenedor py-4 py-lg-5">
+
+      <div class="d-flex flex-wrap align-items-start
+                  justify-content-between gap-4">
+
+        <div>
+          <div class="atm-marca mb-4">
+            <span class="atm-marca-icono" aria-hidden="true">
+              🏦
+            </span>
+            SIMULADOR BANCARIO WEB
+          </div>
+
+          <div class="atm-etiqueta mb-2">
+            <span class="atm-punto"></span>
+            SERVICIOS BANCARIOS
+          </div>
+
+          <h1 class="atm-titulo mb-3">
+            Cajero <span>ATM</span>
+          </h1>
+
+          <p class="atm-subtitulo mb-0">
+            Consulta tu saldo, retira dinero y revisa
+            tus movimientos de manera sencilla.
+          </p>
+        </div>
+
+        <div class="atm-acciones">
+          <a class="btn btn-outline-light atm-volver"
+             href="/">
+            <span aria-hidden="true">←</span>
+            Volver al inicio
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </header>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <main class="container atm-contenedor py-4 py-lg-5">
+
+    <!-- AVISO GENERAL -->
+    <p id="atm-aviso-general"
+       role="status"
+       class="atm-aviso mb-3"
+       hidden></p>
+
+    <!-- ==================================
+         IDENTIFICACIÓN DEL CLIENTE
+    ================================== -->
+
+    <section id="atm-ingreso"
+             class="atm-panel atm-ingreso"
+             aria-labelledby="atm-ingreso-titulo"
+             hidden>
+
+      <div class="text-center mb-4">
+
+        <div class="atm-ingreso-icono mx-auto mb-3"
+             aria-hidden="true">
+          🔐
+        </div>
+
+        <span class="atm-section-kicker">
+          ACCESO AL CAJERO
+        </span>
+
+        <h2 id="atm-ingreso-titulo"
+            class="h3 atm-panel-titulo mt-2 mb-2">
+          Bienvenido a tu cajero
+        </h2>
+
+        <p class="atm-descripcion mb-0">
+          Ingresa tu número de cuenta y tu PIN
+          para continuar.
+        </p>
+
+      </div>
+
       <form id="atm-formulario-ingreso" method="post">
+
+        <!-- NÚMERO DE CUENTA -->
         <div class="mb-3">
-          <label for="atm-numero-cuenta" class="form-label">Número de cuenta</label>
-          <input id="atm-numero-cuenta" name="numeroCuenta" class="form-control" inputmode="numeric" pattern="[0-9]{1,20}" maxlength="20" required>
+          <label for="atm-numero-cuenta"
+                 class="form-label">
+            Número de cuenta
+          </label>
+
+          <input
+            id="atm-numero-cuenta"
+            name="numeroCuenta"
+            class="form-control"
+            inputmode="numeric"
+            pattern="[0-9]{1,20}"
+            maxlength="20"
+            autocomplete="off"
+            placeholder="Ingresa tu número de cuenta"
+            required
+          >
         </div>
-        <div class="mb-3">
-          <label for="atm-pin" class="form-label">PIN de cuatro dígitos</label>
-          <input id="atm-pin" name="pin" class="form-control" type="password" inputmode="numeric" autocomplete="off" pattern="[0-9]{4}" maxlength="4" required>
+
+        <!-- PIN -->
+        <div class="mb-4">
+          <label for="atm-pin" class="form-label">
+            PIN de cuatro dígitos
+          </label>
+
+          <input
+            id="atm-pin"
+            name="pin"
+            class="form-control"
+            type="password"
+            inputmode="numeric"
+            autocomplete="off"
+            pattern="[0-9]{4}"
+            maxlength="4"
+            placeholder="••••"
+            required
+          >
         </div>
-        <button type="submit" class="btn btn-info fw-semibold">Entrar al cajero</button>
-        <p id="atm-aviso-ingreso" class="atm-aviso mt-3 mb-0" role="alert" hidden></p>
+
+        <!-- BOTÓN DE INGRESO -->
+        <button type="submit"
+                class="btn btn-info fw-semibold
+                       atm-boton-principal w-100">
+          Entrar al cajero
+          <span aria-hidden="true">→</span>
+        </button>
+
+        <p id="atm-aviso-ingreso"
+           class="atm-aviso mt-3 mb-0"
+           role="alert"
+           hidden></p>
+
       </form>
+
+      <!-- RECOMENDACIÓN DE SEGURIDAD -->
+      <div class="atm-mensaje-seguridad mt-4">
+        <span aria-hidden="true">🛡️</span>
+        <p class="mb-0">
+          Protege tu PIN y nunca lo compartas
+          con otras personas.
+        </p>
+      </div>
+
     </section>
 
-    <div id="atm-operaciones" hidden>
-      <div class="row g-4 mb-4">
-        <div class="col-lg-5">
-          <section class="atm-panel atm-saldo h-100" aria-labelledby="atm-saldo-titulo">
-            <h2 id="atm-saldo-titulo" class="h4">Saldo disponible</h2>
-            <p id="atm-saldo" class="atm-importe mb-2">—</p>
-            <p class="atm-secundario">Cuenta <strong id="atm-cuenta-identificada"></strong></p>
-            <button id="atm-salir" type="button" class="btn btn-outline-light">Finalizar y expulsar</button>
-          </section>
-        </div>
+    <!-- ==================================
+         OPERACIONES DEL CAJERO
+    ================================== -->
 
-        <div class="col-lg-7">
-          <section class="atm-panel h-100" aria-labelledby="atm-retiro-titulo">
-            <h2 id="atm-retiro-titulo" class="h4 mb-3">Retirar efectivo</h2>
-            <form id="atm-formulario-retiro" method="post">
-              <fieldset class="mb-3">
-                <legend class="form-label mb-2">Montos rápidos</legend>
-                <div class="d-flex flex-wrap gap-2">
-                  <button class="btn btn-outline-info" data-monto="20000.00" type="button">$ 20.000,00</button>
-                  <button class="btn btn-outline-info" data-monto="50000.00" type="button">$ 50.000,00</button>
-                  <button class="btn btn-outline-info" data-monto="100000.00" type="button">$ 100.000,00</button>
-                </div>
-              </fieldset>
-              <label for="atm-monto-retiro" class="form-label">Monto (COP)</label>
-              <div class="input-group mb-3">
-                <span class="input-group-text" aria-hidden="true">$</span>
-                <input id="atm-monto-retiro" class="form-control" name="monto" inputmode="decimal" maxlength="16" placeholder="0,00" required>
-              </div>
-              <button type="submit" class="btn btn-info fw-semibold">Confirmar retiro</button>
-              <p id="atm-aviso-retiro" class="atm-aviso mt-3 mb-0" role="status" hidden></p>
-            </form>
-            <div id="atm-comprobante" class="atm-comprobante mt-3" tabindex="-1" hidden>
-              <h3 class="h6 mb-2">Comprobante</h3>
-              <p class="mb-1" id="atm-comprobante-importe"></p>
-              <p class="mb-0 atm-secundario" id="atm-comprobante-saldo"></p>
-            </div>
-          </section>
-        </div>
+    <div id="atm-operaciones" hidden>
+
+      <div class="atm-intro mb-4">
+        <span class="atm-section-kicker">
+          PANEL PRINCIPAL
+        </span>
+
+        <h2 class="h4 atm-panel-titulo mb-1">
+          Mis operaciones
+        </h2>
+
+        <p class="atm-descripcion mb-0">
+          Administra tu dinero desde el cajero virtual.
+        </p>
       </div>
 
-      <section class="atm-panel" aria-labelledby="atm-movimientos-titulo">
-        <h2 id="atm-movimientos-titulo" class="h4 mb-3">Últimos movimientos</h2>
-        <p id="atm-aviso-movimientos" class="atm-aviso" role="status" hidden></p>
-        <div class="table-responsive">
-          <table class="table align-middle mb-0">
-            <thead><tr><th scope="col">Fecha y hora</th><th scope="col">Tipo</th>
-              <th scope="col">Monto</th><th scope="col">Saldo resultante</th></tr></thead>
-            <tbody id="atm-filas-movimientos"></tbody>
-          </table>
+      <div class="row g-4 mb-4">
+
+        <!-- =============================
+             TARJETA DEL SALDO
+        ============================= -->
+
+        <div class="col-lg-5">
+
+          <section class="atm-panel atm-saldo h-100"
+                   aria-labelledby="atm-saldo-titulo">
+
+            <div class="atm-saldo-contenido">
+
+              <div class="d-flex justify-content-between
+                          align-items-start gap-3 mb-4">
+
+                <div>
+                  <div class="atm-tarjeta-etiqueta mb-3">
+                    <span aria-hidden="true">✦</span>
+                    MI CUENTA
+                  </div>
+
+                  <h2 id="atm-saldo-titulo"
+                      class="h5 mb-0">
+                    Saldo disponible
+                  </h2>
+                </div>
+
+                <div class="atm-saldo-icono"
+                     aria-hidden="true">
+                  💳
+                </div>
+
+              </div>
+
+              <!-- SALDO -->
+              <div class="atm-balance mb-4">
+                <p id="atm-saldo"
+                   class="atm-importe mb-2"
+                   aria-live="polite">
+                  —
+                </p>
+
+                <span class="atm-divisa">
+                  Pesos colombianos · COP
+                </span>
+              </div>
+
+              <!-- CUENTA IDENTIFICADA -->
+              <div class="atm-cuenta-info mb-4">
+                <span class="atm-cuenta-label">
+                  NÚMERO DE CUENTA
+                </span>
+
+                <strong id="atm-cuenta-identificada">
+                </strong>
+              </div>
+
+              <!-- FINALIZAR SESIÓN -->
+              <button id="atm-salir"
+                      type="button"
+                      class="btn btn-outline-light
+                             atm-boton-salir w-100">
+
+                Finalizar y expulsar
+                <span aria-hidden="true">→</span>
+
+              </button>
+
+            </div>
+
+          </section>
+
         </div>
+
+        <!-- =============================
+             RETIRO DE EFECTIVO
+        ============================= -->
+
+        <div class="col-lg-7">
+
+          <section class="atm-panel h-100"
+                   aria-labelledby="atm-retiro-titulo">
+
+            <div class="atm-panel-header mb-4">
+
+              <div class="d-flex align-items-center gap-3">
+
+                <div class="atm-panel-icono"
+                     aria-hidden="true">
+                  💸
+                </div>
+
+                <div>
+                  <span class="atm-section-kicker">
+                    OPERACIONES
+                  </span>
+
+                  <h2 id="atm-retiro-titulo"
+                      class="h4 atm-panel-titulo mb-0">
+                    Retirar efectivo
+                  </h2>
+                </div>
+
+              </div>
+
+              <p class="atm-descripcion mt-3 mb-0">
+                Selecciona un monto rápido o escribe
+                la cantidad que deseas retirar.
+              </p>
+
+            </div>
+
+            <form id="atm-formulario-retiro" method="post">
+
+              <!-- MONTOS RÁPIDOS -->
+              <fieldset class="mb-4">
+
+                <legend class="form-label mb-3">
+                  Montos rápidos
+                </legend>
+
+                <div class="atm-montos-rapidos
+                            d-flex flex-wrap gap-2">
+
+                  <button
+                    class="btn btn-outline-info"
+                    data-monto="20000.00"
+                    type="button">
+                    $ 20.000
+                  </button>
+
+                  <button
+                    class="btn btn-outline-info"
+                    data-monto="50000.00"
+                    type="button">
+                    $ 50.000
+                  </button>
+
+                  <button
+                    class="btn btn-outline-info"
+                    data-monto="100000.00"
+                    type="button">
+                    $ 100.000
+                  </button>
+
+                </div>
+
+              </fieldset>
+
+              <!-- MONTO PERSONALIZADO -->
+              <div class="mb-4">
+
+                <label for="atm-monto-retiro"
+                       class="form-label">
+                  Monto a retirar (COP)
+                </label>
+
+                <div class="input-group">
+
+                  <span class="input-group-text"
+                        aria-hidden="true">
+                    $
+                  </span>
+
+                  <input
+                    id="atm-monto-retiro"
+                    class="form-control"
+                    name="monto"
+                    inputmode="decimal"
+                    maxlength="16"
+                    placeholder="0,00"
+                    required
+                  >
+
+                </div>
+
+              </div>
+
+              <!-- CONFIRMAR RETIRO -->
+              <button type="submit"
+                      class="btn btn-info fw-semibold
+                             atm-boton-principal w-100">
+
+                Confirmar retiro
+                <span aria-hidden="true">→</span>
+
+              </button>
+
+              <p id="atm-aviso-retiro"
+                 class="atm-aviso mt-3 mb-0"
+                 role="status"
+                 hidden></p>
+
+            </form>
+
+            <!-- COMPROBANTE -->
+            <div id="atm-comprobante"
+                 class="atm-comprobante mt-4"
+                 tabindex="-1"
+                 hidden>
+
+              <div class="d-flex align-items-center gap-3 mb-3">
+
+                <div class="atm-comprobante-icono"
+                     aria-hidden="true">
+                  ✓
+                </div>
+
+                <div>
+                  <span class="atm-comprobante-etiqueta">
+                    OPERACIÓN REGISTRADA
+                  </span>
+
+                  <h3 class="h6 mb-0">
+                    Comprobante
+                  </h3>
+                </div>
+
+              </div>
+
+              <p class="mb-2"
+                 id="atm-comprobante-importe"></p>
+
+              <p class="mb-0 atm-secundario"
+                 id="atm-comprobante-saldo"></p>
+
+            </div>
+
+          </section>
+
+        </div>
+
+      </div>
+
+      <!-- =============================
+           ÚLTIMOS MOVIMIENTOS
+      ============================= -->
+
+      <section class="atm-panel"
+               aria-labelledby="atm-movimientos-titulo">
+
+        <div class="atm-panel-header mb-4">
+
+          <div class="d-flex align-items-center gap-3">
+
+            <div class="atm-panel-icono
+                        atm-panel-icono-azul"
+                 aria-hidden="true">
+              📊
+            </div>
+
+            <div>
+              <span class="atm-section-kicker">
+                ACTIVIDAD FINANCIERA
+              </span>
+
+              <h2 id="atm-movimientos-titulo"
+                  class="h4 atm-panel-titulo mb-0">
+                Últimos movimientos
+              </h2>
+            </div>
+
+          </div>
+
+          <p class="atm-descripcion mt-3 mb-0">
+            Consulta tus transacciones recientes.
+          </p>
+
+        </div>
+
+        <p id="atm-aviso-movimientos"
+           class="atm-aviso"
+           role="status"
+           hidden></p>
+
+        <!-- TABLA DE MOVIMIENTOS -->
+        <div class="table-responsive atm-tabla">
+
+          <table class="table align-middle mb-0">
+
+            <thead>
+              <tr>
+                <th scope="col">Fecha y hora</th>
+                <th scope="col">Tipo</th>
+                <th scope="col">Monto</th>
+                <th scope="col">Saldo resultante</th>
+              </tr>
+            </thead>
+
+            <tbody id="atm-filas-movimientos"></tbody>
+
+          </table>
+
+        </div>
+
       </section>
+
     </div>
 
-    <noscript><p class="atm-aviso">Activa JavaScript para usar el cajero.</p></noscript>
+    <!-- JAVASCRIPT DESACTIVADO -->
+    <noscript>
+      <p class="atm-aviso">
+        Activa JavaScript para usar el cajero.
+      </p>
+    </noscript>
+
   </main>
+
+  <!-- PIE DE PÁGINA -->
+  <footer class="atm-footer container
+                 text-center pb-4">
+    © Simulador Bancario Web · Cajero virtual
+  </footer>
+
 </body>
 </html>

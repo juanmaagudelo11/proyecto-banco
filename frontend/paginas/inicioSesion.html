@@ -1,33 +1,201 @@
+
 <!doctype html>
 <html lang="es">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
   <title>Iniciar sesión | Simulador Bancario Web</title>
+
   <link rel="stylesheet" href="/css/bootstrap.min.css">
   <link rel="stylesheet" href="/css/estilos.css">
+
   <script src="/js/autenticacion.js" defer></script>
 </head>
-<body>
-  <main class="container py-5">
-    <section class="card shadow-sm mx-auto panel-salud" aria-labelledby="titulo">
-      <div class="card-body p-4 p-md-5">
-        <a href="/" class="d-inline-block mb-3">Simulador Bancario Web</a>
-        <h1 id="titulo" class="h2 mb-4">Iniciar sesión</h1>
-        <form id="formulario-acceso" action="/api/auth/login" method="post">
-          <div class="mb-3">
-            <label for="identificador" class="form-label">Correo o documento</label>
-            <input id="identificador" name="identificador" class="form-control" autocomplete="username" maxlength="100" required>
+
+<body class="login-page">
+
+  <main class="login-container">
+
+    <div class="login-card">
+
+      <!-- PANEL IZQUIERDO -->
+      <aside class="login-welcome">
+
+        <div class="welcome-content">
+
+          <div class="brand-badge">
+            <span>✦</span> BANCA DIGITAL
           </div>
-          <div class="mb-3">
-            <label for="contrasena" class="form-label">Contraseña</label>
-            <input type="password" id="contrasena" name="contrasena" class="form-control" autocomplete="current-password" maxlength="72" required>
+
+          <div class="welcome-icon" aria-hidden="true">
+            🏦
           </div>
-          <p id="error-acceso" role="alert" class="alert alert-danger" hidden></p>
-          <button type="submit" class="btn btn-primary">Entrar</button>
-        </form>
-      </div>
-    </section>
+
+          <h2>
+            Tu dinero.<br>
+            Tu futuro.<br>
+            <span>Tu banco.</span>
+          </h2>
+
+          <p>
+            Bienvenido a una nueva experiencia
+            bancaria. Moderna, sencilla y
+            diseñada para ti.
+          </p>
+
+          <div class="welcome-features">
+            <div class="feature">
+              <span>✦</span>
+              Una experiencia moderna
+            </div>
+
+            <div class="feature">
+              <span>✦</span>
+              Todo en un mismo lugar
+            </div>
+
+            <div class="feature">
+              <span>✦</span>
+              Fácil de utilizar
+            </div>
+          </div>
+
+        </div>
+
+        <div class="welcome-footer">
+          Simulador Bancario Web
+        </div>
+
+      </aside>
+
+      <!-- PANEL DERECHO -->
+      <section class="login-form-section"
+               aria-labelledby="titulo">
+
+        <div class="form-content">
+
+          <a href="/" class="login-brand">
+            <div class="brand-icon">🏦</div>
+            <span>Simulador <strong>Bancario</strong></span>
+          </a>
+
+          <div class="welcome-label">
+            <span class="status-dot"></span>
+            BIENVENIDO DE NUEVO
+          </div>
+
+          <h1 id="titulo">Iniciar sesión</h1>
+
+          <p class="login-description">
+            ¡Qué bueno verte otra vez!
+            Ingresa tus datos para acceder a tu cuenta.
+          </p>
+
+          <form id="formulario-acceso"
+                action="/api/auth/login"
+                method="post">
+
+            <div class="form-group-custom">
+
+              <label for="identificador">
+                Correo o documento
+              </label>
+
+              <input
+                type="text"
+                id="identificador"
+                name="identificador"
+                class="input-custom"
+                placeholder="Ingresa tu correo o documento"
+                autocomplete="username"
+                maxlength="100"
+                required
+              >
+
+            </div>
+
+            <div class="form-group-custom">
+
+              <label for="contrasena">
+                Contraseña
+              </label>
+
+              <div class="password-wrapper">
+
+                <input
+                  type="password"
+                  id="contrasena"
+                  name="contrasena"
+                  class="input-custom"
+                  placeholder="Ingresa tu contraseña"
+                  autocomplete="current-password"
+                  maxlength="72"
+                  required
+                >
+
+                <button
+                  type="button"
+                  id="toggle-password"
+                  class="toggle-password"
+                  aria-label="Mostrar contraseña"
+                  aria-pressed="false">
+                  Mostrar
+                </button>
+
+              </div>
+
+            </div>
+
+            <p id="error-acceso"
+               role="alert"
+               class="alert alert-danger"
+               hidden></p>
+
+            <button type="submit"
+                    class="login-button">
+
+              Entrar a mi cuenta
+              <span aria-hidden="true">→</span>
+
+            </button>
+
+          </form>
+
+          <div class="security-message">
+            <span aria-hidden="true">🔒</span>
+            Nunca compartas tu contraseña
+          </div>
+
+          <div class="login-bottom">
+            © Simulador Bancario Web
+          </div>
+
+        </div>
+
+      </section>
+
+    </div>
+
   </main>
+
+  <!-- CONTROL VISUAL DE CONTRASEÑA -->
+  <script>
+    const toggle = document.getElementById("toggle-password");
+    const password = document.getElementById("contrasena");
+
+    toggle.addEventListener("click", () => {
+      const isVisible = password.type === "text";
+
+      password.type = isVisible ? "password" : "text";
+      toggle.textContent = isVisible ? "Mostrar" : "Ocultar";
+      toggle.setAttribute(
+        "aria-label",
+        isVisible ? "Mostrar contraseña" : "Ocultar contraseña"
+      );
+      toggle.setAttribute("aria-pressed", String(!isVisible));
+    });
+  </script>
+
 </body>
 </html>

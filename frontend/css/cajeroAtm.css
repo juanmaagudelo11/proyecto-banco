@@ -1,38 +1,1074 @@
+
+/* ==========================================
+   CAJERO ATM
+   Bootstrap 5 + CSS personalizado
+========================================== */
+
+/* ==========================================
+   COLORES Y FONDO PRINCIPAL
+========================================== */
+
 body.atm {
+  --atm-primary: #345cf6;
+  --atm-primary-dark: #2446cb;
+  --atm-purple: #7562ed;
+  --atm-turquoise: #08b7c4;
+  --atm-dark: #172447;
+  --atm-muted: #667793;
+  --atm-border: #e3eafa;
+
+  --atm-shadow:
+    0 12px 35px rgba(39, 65, 135, 0.08);
+
   min-height: 100vh;
-  background: radial-gradient(ellipse at top right, #173f55, transparent 50rem), #0b1729;
-  color: #eff8ff;
+  margin: 0;
+
+  font-family:
+    "Segoe UI",
+    system-ui,
+    -apple-system,
+    sans-serif;
+
+  color: var(--atm-dark);
+
+  background:
+    radial-gradient(
+      circle at 5% 20%,
+      rgba(131, 174, 255, 0.13),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 95% 85%,
+      rgba(8, 197, 202, 0.11),
+      transparent 30%
+    ),
+    #f4f7ff;
 }
 
-.atm-contenedor { max-width: 65rem; }
-.atm-secundario { color: #c1d4e8; }
+/* IMPORTANTE PARA JAVASCRIPT */
+
+.atm [hidden] {
+  display: none !important;
+}
+
+.atm-contenedor {
+  max-width: 1150px;
+}
+
+/* ==========================================
+   ENCABEZADO
+========================================== */
+
+.atm-encabezado {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+
+  background: linear-gradient(
+    115deg,
+    #2446cb 0%,
+    #5665e7 55%,
+    #148fbc 100%
+  );
+
+  box-shadow:
+    0 12px 30px rgba(39, 65, 135, 0.15);
+}
+
+/* CÍRCULOS DECORATIVOS */
+
+.atm-encabezado::before {
+  content: "";
+
+  position: absolute;
+  z-index: -1;
+
+  width: 420px;
+  height: 420px;
+
+  top: -240px;
+  right: -100px;
+
+  border-radius: 50%;
+
+  background:
+    rgba(255, 255, 255, 0.09);
+
+  pointer-events: none;
+}
+
+.atm-encabezado::after {
+  content: "";
+
+  position: absolute;
+  z-index: -1;
+
+  width: 380px;
+  height: 380px;
+
+  bottom: -310px;
+  left: 20%;
+
+  border-radius: 50%;
+
+  background:
+    rgba(63, 255, 228, 0.13);
+
+  pointer-events: none;
+}
+
+/* ==========================================
+   MARCA BANCARIA
+========================================== */
+
+.atm-marca {
+  display: inline-flex;
+  align-items: center;
+
+  gap: 10px;
+  padding: 8px 15px;
+
+  background:
+    rgba(255, 255, 255, 0.13);
+
+  border:
+    1px solid rgba(255, 255, 255, 0.22);
+
+  border-radius: 30px;
+
+  font-size: 11px;
+  font-weight: 800;
+
+  letter-spacing: 1.4px;
+}
+
+.atm-marca-icono {
+  display: grid;
+  place-items: center;
+
+  width: 32px;
+  height: 32px;
+
+  border-radius: 10px;
+
+  background:
+    rgba(255, 255, 255, 0.18);
+
+  font-size: 19px;
+}
+
+/* ETIQUETA SUPERIOR */
+
+.atm-etiqueta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  color: #d8fff9;
+
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.atm-punto {
+  width: 9px;
+  height: 9px;
+
+  border-radius: 50%;
+  background: #8dffee;
+
+  box-shadow:
+    0 0 0 4px rgba(141, 255, 238, 0.15);
+}
+
+/* TÍTULO */
+
+.atm-titulo {
+  font-size: clamp(2rem, 4.5vw, 3.2rem);
+
+  font-weight: 800;
+  letter-spacing: -1.5px;
+  line-height: 1.15;
+}
+
+.atm-titulo span {
+  color: #91ffef;
+}
+
+.atm-subtitulo {
+  max-width: 590px;
+
+  color: #e9f0ff;
+
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+/* VOLVER AL INICIO */
+
+.atm .atm-volver {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+
+  border-color:
+    rgba(255, 255, 255, 0.65);
+
+  background:
+    rgba(255, 255, 255, 0.07);
+
+  color: white;
+}
+
+.atm .atm-volver:hover {
+  background: white;
+  color: #2446cb;
+  border-color: white;
+}
+
+/* ==========================================
+   TÍTULOS DE SECCIONES
+========================================== */
+
+.atm-section-kicker {
+  display: inline-block;
+
+  margin-bottom: 6px;
+
+  color: var(--atm-primary);
+
+  font-size: 11px;
+  font-weight: 800;
+
+  letter-spacing: 1.7px;
+}
+
+.atm-panel-titulo {
+  color: var(--atm-dark);
+
+  font-weight: 800;
+  letter-spacing: -0.6px;
+}
+
+.atm-descripcion {
+  color: var(--atm-muted);
+
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+/* ==========================================
+   PANELES GENERALES
+========================================== */
 
 .atm-panel {
-  border: 1px solid #36546e;
-  border-radius: 1rem;
-  background: #12253c;
-  padding: clamp(1.05rem, 3.5vw, 1.8rem);
+  padding: clamp(1.25rem, 3vw, 1.9rem);
+
+  background: white;
+
+  border:
+    1px solid var(--atm-border);
+
+  border-radius: 21px;
+
+  box-shadow: var(--atm-shadow);
+
+  transition:
+    box-shadow 0.25s ease;
 }
 
-.atm-ingreso { max-width: 29rem; }
-.atm-saldo { background: linear-gradient(140deg, #124156, #142843); }
-.atm-importe { font-size: clamp(1.9rem, 5vw, 2.9rem); font-weight: 700; overflow-wrap: anywhere; }
-.atm-aviso { color: #cdefff; }
-.atm-aviso.error { color: #ffd4db; }
+.atm-panel:hover {
+  box-shadow:
+    0 17px 42px rgba(39, 65, 135, 0.12);
+}
+
+/* ==========================================
+   INGRESO AL CAJERO
+========================================== */
+
+.atm-ingreso {
+  max-width: 490px;
+
+  margin: 0 auto;
+
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+
+  border-top: 4px solid var(--atm-primary);
+
+  animation: atmAparecer 0.6s ease;
+}
+
+/* ICONO DE IDENTIFICACIÓN */
+
+.atm-ingreso-icono {
+  display: grid;
+  place-items: center;
+
+  width: 78px;
+  height: 78px;
+
+  border-radius: 23px;
+
+  background: linear-gradient(
+    135deg,
+    #eaf0ff,
+    #f0edff
+  );
+
+  border: 1px solid #e2e9ff;
+
+  font-size: 38px;
+
+  box-shadow:
+    0 10px 25px rgba(52, 92, 246, 0.08);
+}
+
+/* ==========================================
+   FORMULARIOS BOOTSTRAP
+========================================== */
+
+.atm .form-label {
+  margin-bottom: 9px;
+
+  color: #34445f;
+
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.atm .form-control {
+  min-height: 52px;
+
+  padding: 12px 15px;
+
+  background: #f7f9fe;
+
+  border:
+    1.5px solid #e0e7f6;
+
+  border-radius: 12px;
+
+  color: #263751;
+
+  font-size: 14px;
+
+  transition: all 0.25s ease;
+}
+
+.atm .form-control::placeholder {
+  color: #929cb1;
+}
+
+.atm .form-control:hover {
+  border-color: #b9c7fa;
+}
+
+.atm .form-control:focus {
+  background: white;
+
+  border-color: var(--atm-primary);
+
+  box-shadow:
+    0 0 0 4px rgba(52, 92, 246, 0.11);
+}
+
+/* ENTRADA DE MONTO */
+
+.atm .input-group-text {
+  padding: 0 18px;
+
+  border:
+    1.5px solid #e0e7f6;
+
+  border-radius: 12px 0 0 12px;
+
+  background: #eaf0ff;
+
+  color: #345cf6;
+
+  font-weight: 800;
+}
+
+.atm .input-group .form-control {
+  border-radius: 0 12px 12px 0;
+}
+
+/* FIELDSET */
+
+.atm legend.form-label {
+  float: none;
+  width: auto;
+
+  font-size: 13px;
+  font-weight: 700;
+}
+
+/* ==========================================
+   BOTONES
+========================================== */
+
+.atm .btn {
+  padding: 11px 18px;
+
+  border-radius: 11px;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  transition: all 0.25s ease;
+}
+
+.atm .btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+
+.atm .btn:focus-visible {
+  outline: 3px solid #08b7c4;
+  outline-offset: 3px;
+}
+
+.atm .btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* BOTÓN PRINCIPAL */
+
+.atm .atm-boton-principal {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 12px;
+  min-height: 54px;
+
+  color: white;
+
+  border-color: #345cf6;
+
+  background: linear-gradient(
+    110deg,
+    #345cf6,
+    #675ce9
+  );
+
+  box-shadow:
+    0 10px 23px rgba(52, 92, 246, 0.20);
+}
+
+.atm .atm-boton-principal:hover:not(:disabled) {
+  color: white;
+
+  border-color: #345cf6;
+
+  background: linear-gradient(
+    110deg,
+    #244ad9,
+    #584bd3
+  );
+
+  box-shadow:
+    0 14px 30px rgba(52, 92, 246, 0.28);
+}
+
+.atm-boton-principal span {
+  font-size: 20px;
+}
+
+/* ==========================================
+   MENSAJE DE SEGURIDAD
+========================================== */
+
+.atm-mensaje-seguridad {
+  display: flex;
+  align-items: flex-start;
+
+  gap: 12px;
+
+  padding: 16px;
+
+  border: 1px solid #dfe5ff;
+  border-radius: 13px;
+
+  background: #f0f3ff;
+}
+
+.atm-mensaje-seguridad span {
+  font-size: 23px;
+  line-height: 1.3;
+}
+
+.atm-mensaje-seguridad p {
+  color: #586b96;
+
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+/* ==========================================
+   TARJETA DE SALDO
+========================================== */
+
+.atm-saldo {
+  position: relative;
+  isolation: isolate;
+
+  overflow: hidden;
+
+  color: white;
+  border: none;
+
+  background: linear-gradient(
+    135deg,
+    #2446cb 0%,
+    #465ce0 50%,
+    #148db7 100%
+  );
+
+  box-shadow:
+    0 18px 42px rgba(46, 83, 196, 0.22);
+}
+
+/* CÍRCULOS DECORATIVOS */
+
+.atm-saldo::before {
+  content: "";
+
+  position: absolute;
+  z-index: -1;
+
+  width: 320px;
+  height: 320px;
+
+  top: -180px;
+  right: -135px;
+
+  border-radius: 50%;
+
+  border:
+    55px solid rgba(255, 255, 255, 0.065);
+
+  pointer-events: none;
+}
+
+.atm-saldo::after {
+  content: "";
+
+  position: absolute;
+  z-index: -1;
+
+  width: 280px;
+  height: 280px;
+
+  bottom: -175px;
+  left: -110px;
+
+  border-radius: 50%;
+
+  background:
+    rgba(83, 255, 227, 0.08);
+
+  pointer-events: none;
+}
+
+.atm-saldo-contenido {
+  position: relative;
+  z-index: 1;
+}
+
+.atm-saldo h2 {
+  color: white;
+}
+
+/* ETIQUETA DE CUENTA */
+
+.atm-tarjeta-etiqueta {
+  display: inline-flex;
+  align-items: center;
+
+  gap: 8px;
+
+  padding: 8px 14px;
+
+  border-radius: 30px;
+
+  background:
+    rgba(255, 255, 255, 0.15);
+
+  border:
+    1px solid rgba(255, 255, 255, 0.15);
+
+  font-size: 11px;
+  font-weight: 800;
+
+  letter-spacing: 1.5px;
+}
+
+.atm-tarjeta-etiqueta span {
+  color: #a1fff1;
+}
+
+/* ICONO DE TARJETA */
+
+.atm-saldo-icono {
+  display: grid;
+  place-items: center;
+
+  width: 55px;
+  height: 55px;
+
+  border-radius: 16px;
+
+  background:
+    rgba(255, 255, 255, 0.16);
+
+  border:
+    1px solid rgba(255, 255, 255, 0.20);
+
+  font-size: 29px;
+}
+
+/* ==========================================
+   SALDO DISPONIBLE
+========================================== */
+
+.atm-balance {
+  padding: 18px 0 27px;
+
+  border-bottom:
+    1px solid rgba(255, 255, 255, 0.20);
+}
+
+.atm-importe {
+  font-size: clamp(2.2rem, 5vw, 3.3rem);
+
+  font-weight: 800;
+  line-height: 1.2;
+
+  letter-spacing: -1.4px;
+
+  color: white;
+
+  overflow-wrap: anywhere;
+
+  font-variant-numeric: tabular-nums;
+}
+
+.atm-divisa {
+  display: inline-block;
+
+  color: #deebff;
+
+  font-size: 12px;
+}
+
+/* INFORMACIÓN DE CUENTA */
+
+.atm-cuenta-info {
+  display: flex;
+  flex-direction: column;
+
+  gap: 8px;
+}
+
+.atm-cuenta-label {
+  color: #dae7ff;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  letter-spacing: 1.3px;
+}
+
+.atm-cuenta-info strong {
+  color: white;
+
+  font-size: 16px;
+  font-weight: 800;
+
+  overflow-wrap: anywhere;
+}
+
+/* BOTÓN FINALIZAR */
+
+.atm .atm-boton-salir {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 12px;
+  min-height: 51px;
+
+  color: white;
+
+  background:
+    rgba(255, 255, 255, 0.12);
+
+  border-color:
+    rgba(255, 255, 255, 0.60);
+}
+
+.atm .atm-boton-salir:hover {
+  color: #2446cb;
+
+  background: white;
+  border-color: white;
+}
+
+/* ==========================================
+   ICONOS DE LOS PANELES
+========================================== */
+
+.atm-panel-icono {
+  display: grid;
+  place-items: center;
+
+  flex: 0 0 auto;
+
+  width: 54px;
+  height: 54px;
+
+  border-radius: 15px;
+
+  background: #f0edff;
+
+  color: #7562ed;
+
+  font-size: 26px;
+}
+
+/* VARIANTE AZUL */
+
+.atm-panel-icono-azul {
+  background: #eaf0ff;
+  color: #345cf6;
+}
+
+/* ==========================================
+   MONTOS RÁPIDOS
+========================================== */
+
+.atm-montos-rapidos .btn {
+  flex: 1 1 125px;
+
+  min-height: 49px;
+
+  background: #f2f5ff;
+  color: #345cf6;
+
+  border:
+    1px solid #dbe3ff;
+
+  border-radius: 12px;
+
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.atm-montos-rapidos .btn:hover,
+.atm-montos-rapidos .btn:focus-visible {
+  color: white;
+
+  background: linear-gradient(
+    110deg,
+    #345cf6,
+    #675ce9
+  );
+
+  border-color: #345cf6;
+
+  box-shadow:
+    0 8px 18px rgba(52, 92, 246, 0.18);
+}
+
+/* ==========================================
+   COMPROBANTE DE RETIRO
+========================================== */
 
 .atm-comprobante {
-  padding: .85rem 1rem;
-  border: 1px solid #507894;
-  border-radius: .65rem;
-  background: #163950;
+  padding: 20px;
+
+  border: 1px solid #bce9dc;
+  border-radius: 15px;
+
+  background: linear-gradient(
+    135deg,
+    #ecfaf5,
+    #f0f9ff
+  );
+
+  outline-offset: 4px;
+}
+
+.atm-comprobante-icono {
+  display: grid;
+  place-items: center;
+
+  width: 43px;
+  height: 43px;
+
+  border-radius: 13px;
+
+  background: #d0f5e6;
+  color: #087b59;
+
+  font-size: 24px;
+  font-weight: 800;
+}
+
+.atm-comprobante-etiqueta {
+  display: inline-block;
+
+  margin-bottom: 4px;
+
+  color: #087b59;
+
+  font-size: 10px;
+  font-weight: 800;
+
+  letter-spacing: 1.3px;
+}
+
+.atm-comprobante h3 {
+  color: #194f45;
+  font-weight: 800;
+}
+
+.atm-comprobante #atm-comprobante-importe {
+  color: #194f45;
+
+  font-size: 17px;
+  font-weight: 800;
+
+  overflow-wrap: anywhere;
+}
+
+.atm-comprobante .atm-secundario {
+  color: #4e726e;
+  font-size: 13px;
+}
+
+/* ==========================================
+   TABLA DE MOVIMIENTOS
+========================================== */
+
+.atm-tabla {
+  border: 1px solid #e8eefb;
+  border-radius: 15px;
 }
 
 .atm .table {
+  margin-bottom: 0;
+
   --bs-table-bg: transparent;
-  --bs-table-color: #eff8ff;
-  --bs-table-border-color: #45637d;
+  --bs-table-color: #34445f;
+  --bs-table-border-color: #eaf0f8;
 }
 
-.atm .table th { white-space: nowrap; }
-.atm .table td { min-width: 6rem; }
-.atm legend.form-label { float: none; font-size: 1rem; }
+.atm .table thead th {
+  padding: 17px 15px;
+
+  color: #405270;
+  background: #eff3ff;
+
+  font-size: 12px;
+  font-weight: 800;
+
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+
+  border-bottom:
+    1px solid #e1e9fb;
+
+  white-space: nowrap;
+}
+
+.atm .table td {
+  min-width: 6rem;
+
+  padding: 17px 15px;
+
+  font-size: 13px;
+
+  color: #34445f;
+
+  vertical-align: middle;
+
+  overflow-wrap: anywhere;
+}
+
+.atm .table tbody tr {
+  transition: background 0.2s ease;
+}
+
+.atm .table tbody tr:hover > * {
+  --bs-table-bg: #f7f9ff;
+}
+
+.atm .table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* ==========================================
+   MENSAJES Y AVISOS
+========================================== */
+
+.atm-aviso {
+  padding: 13px 16px;
+
+  background: #eaf2ff;
+
+  color: #2446a8;
+
+  border: 1px solid #ccddff;
+  border-radius: 12px;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  overflow-wrap: anywhere;
+}
+
+/* ERRORES */
+
+.atm-aviso.error {
+  background: #fff0f2;
+
+  color: #ad2644;
+
+  border-color: #f4c6cf;
+}
+
+/* TEXTO SECUNDARIO */
+
+.atm-secundario {
+  color: var(--atm-muted);
+}
+
+/* ==========================================
+   PIE DE PÁGINA
+========================================== */
+
+.atm-footer {
+  color: #929eb4;
+
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* ==========================================
+   ANIMACIONES
+========================================== */
+
+@keyframes atmAparecer {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+#atm-operaciones:not([hidden]) {
+  animation: atmAparecer 0.6s ease;
+}
+
+/* ==========================================
+   DISEÑO RESPONSIVE
+========================================== */
+
+@media (max-width: 991.98px) {
+
+  .atm-titulo {
+    font-size: 2.5rem;
+  }
+
+  .atm-panel {
+    border-radius: 18px;
+  }
+
+  .atm-saldo {
+    min-height: 390px;
+  }
+
+}
+
+@media (max-width: 767.98px) {
+
+  .atm-encabezado .container {
+    padding-top: 30px !important;
+    padding-bottom: 30px !important;
+  }
+
+  .atm-titulo {
+    font-size: 2.1rem;
+  }
+
+  .atm-subtitulo {
+    font-size: 13px;
+  }
+
+  .atm-saldo {
+    min-height: auto;
+  }
+
+  .atm-importe {
+    font-size: 2.4rem;
+  }
+
+  .atm-panel {
+    padding: 22px;
+  }
+
+}
+
+@media (max-width: 480px) {
+
+  .atm-marca {
+    font-size: 10px;
+    letter-spacing: 0.7px;
+  }
+
+  .atm-acciones,
+  .atm-volver {
+    width: 100%;
+  }
+
+  .atm-ingreso {
+    padding: 24px 20px;
+  }
+
+  .atm-montos-rapidos .btn {
+    flex-basis: 100%;
+  }
+
+  .atm-panel-icono {
+    width: 46px;
+    height: 46px;
+    font-size: 21px;
+  }
+
+  .atm-panel .h4 {
+    font-size: 1.18rem;
+  }
+
+}
+
+/* ==========================================
+   ACCESIBILIDAD
+========================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .atm *,
+  .atm *::before,
+  .atm *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+}

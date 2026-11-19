@@ -1,8 +1,1603 @@
-body {
-  min-height: 100vh;
-  background-color: #edf2f8;
+
+/* ==========================
+   PALETA DE COLORES
+========================== */
+
+:root {
+  --primary: #345cf6;
+  --primary-dark: #1936a8;
+  --secondary: #08c5ca;
+  --purple: #7562ed;
+  --text-dark: #172447;
+  --text-muted: #7a849d;
 }
 
-.panel-salud {
-  max-width: 38rem;
+/* ==========================
+   FONDO PRINCIPAL
+========================== */
+
+body.login-page {
+  min-height: 100vh;
+  margin: 0;
+  font-family: "Segoe UI", Arial, sans-serif;
+
+  background:
+    radial-gradient(
+      circle at 10% 20%,
+      #d7e7ff 0%,
+      transparent 35%
+    ),
+    radial-gradient(
+      circle at 90% 80%,
+      #d6f7fa 0%,
+      transparent 35%
+    ),
+    #f4f7ff;
+}
+
+.login-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 35px 20px;
+}
+
+/* ==========================
+   TARJETA PRINCIPAL
+========================== */
+
+.login-card {
+  width: 100%;
+  max-width: 1100px;
+  min-height: 650px;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  background: white;
+  border-radius: 26px;
+  overflow: hidden;
+
+  box-shadow:
+    0 25px 70px rgba(35, 60, 130, 0.14);
+
+  animation: cardAppear 0.7s ease;
+}
+
+/* ==========================
+   PANEL IZQUIERDO
+========================== */
+
+.login-welcome {
+  position: relative;
+  overflow: hidden;
+
+  padding: 55px 50px;
+
+  background: linear-gradient(
+    145deg,
+    #2446cb 0%,
+    #5165e8 45%,
+    #168ebc 100%
+  );
+
+  color: white;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Círculos decorativos */
+
+.login-welcome::before {
+  content: "";
+  position: absolute;
+
+  width: 420px;
+  height: 420px;
+
+  border-radius: 50%;
+  background: rgba(255,255,255,0.07);
+
+  top: -160px;
+  right: -180px;
+}
+
+.login-welcome::after {
+  content: "";
+  position: absolute;
+
+  width: 350px;
+  height: 350px;
+
+  border-radius: 50%;
+  background: rgba(31,222,226,0.12);
+
+  bottom: -200px;
+  left: -130px;
+}
+
+.welcome-content,
+.welcome-footer {
+  position: relative;
+  z-index: 1;
+}
+
+/* Insignia */
+
+.brand-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  width: fit-content;
+
+  padding: 9px 16px;
+
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.2);
+
+  border-radius: 30px;
+
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+}
+
+.brand-badge span {
+  color: #88fff3;
+  font-size: 17px;
+}
+
+/* Icono grande */
+
+.welcome-icon {
+  width: 84px;
+  height: 84px;
+  margin-top: 65px;
+
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 24px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 44px;
+
+  box-shadow: 0 12px 35px rgba(0,0,0,0.1);
+}
+
+/* Texto de bienvenida */
+
+.login-welcome h2 {
+  font-size: clamp(34px, 4vw, 48px);
+  font-weight: 800;
+  line-height: 1.2;
+  margin-top: 28px;
+  letter-spacing: -1px;
+}
+
+.login-welcome h2 span {
+  color: #8affef;
+}
+
+.login-welcome p {
+  font-size: 15px;
+  line-height: 1.9;
+  color: #ecf5ff;
+  max-width: 350px;
+  margin-top: 24px;
+}
+
+/* Características */
+
+.welcome-features {
+  margin-top: 35px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.feature {
+  display: flex;
+  gap: 13px;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.feature span {
+  color: #92fff4;
+  font-size: 20px;
+}
+
+.welcome-footer {
+  font-size: 12px;
+  color: #e4efff;
+  margin-top: 35px;
+}
+
+/* ==========================
+   PANEL DEL FORMULARIO
+========================== */
+
+.login-form-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 55px 55px;
+  background: #ffffff;
+}
+
+.form-content {
+  width: 100%;
+  max-width: 400px;
+}
+
+/* Logo */
+
+.login-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  margin-bottom: 48px;
+
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.login-brand:hover {
+  color: var(--primary);
+}
+
+.login-brand strong {
+  color: var(--primary);
+}
+
+.brand-icon {
+  width: 45px;
+  height: 45px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #e9efff;
+  border-radius: 13px;
+  font-size: 24px;
+}
+
+/* Indicador de bienvenida */
+
+.welcome-label {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.6px;
+
+  color: var(--primary);
+  margin-bottom: 12px;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--secondary);
+}
+
+/* Título */
+
+.form-content h1 {
+  font-size: 35px;
+  font-weight: 800;
+  color: var(--text-dark);
+  letter-spacing: -1px;
+
+  margin-bottom: 12px;
+}
+
+.login-description {
+  color: var(--text-muted);
+  font-size: 14px;
+  line-height: 1.8;
+  margin-bottom: 34px;
+}
+
+/* ==========================
+   CAMPOS DE ENTRADA
+========================== */
+
+.form-group-custom {
+  margin-bottom: 24px;
+}
+
+.form-group-custom label {
+  display: block;
+
+  color: var(--text-dark);
+  font-weight: 650;
+  font-size: 13px;
+
+  margin-bottom: 10px;
+}
+
+.input-custom {
+  width: 100%;
+  height: 54px;
+
+  padding: 0 17px;
+
+  background: #f6f8fe;
+  border: 1.5px solid #e5eafa;
+  border-radius: 12px;
+
+  font-size: 14px;
+  color: var(--text-dark);
+
+  outline: none;
+  transition: all 0.25s ease;
+}
+
+.input-custom::placeholder {
+  color: #929bb0;
+}
+
+.input-custom:hover {
+  border-color: #b5c6ff;
+}
+
+.input-custom:focus {
+  background: white;
+  border-color: var(--primary);
+
+  box-shadow:
+    0 0 0 4px rgba(52,92,246,0.1);
+}
+
+/* Contraseña */
+
+.password-wrapper {
+  position: relative;
+}
+
+.password-wrapper .input-custom {
+  padding-right: 90px;
+}
+
+.toggle-password {
+  position: absolute;
+
+  right: 14px;
+  top: 50%;
+
+  transform: translateY(-50%);
+
+  background: none;
+  border: none;
+
+  color: var(--primary);
+  font-size: 12px;
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+.toggle-password:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+
+/* ==========================
+   BOTÓN DE INICIO
+========================== */
+
+.login-button {
+  width: 100%;
+  height: 55px;
+
+  border: none;
+  border-radius: 12px;
+
+  background: linear-gradient(
+    110deg,
+    #345cf6,
+    #6256e8
+  );
+
+  color: white;
+  font-size: 15px;
+  font-weight: 700;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 12px 25px rgba(52,92,246,0.25);
+
+  transition: all 0.3s ease;
+}
+
+.login-button:hover {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 16px 30px rgba(52,92,246,0.35);
+
+  filter: brightness(1.07);
+}
+
+.login-button:active {
+  transform: translateY(0);
+}
+
+.login-button:focus-visible {
+  outline: 3px solid #07a8ae;
+  outline-offset: 3px;
+}
+
+.login-button span {
+  font-size: 22px;
+}
+
+/* ==========================
+   ELEMENTOS INFERIORES
+========================== */
+
+.security-message {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+
+  margin-top: 28px;
+
+  color: #718099;
+  font-size: 12px;
+}
+
+.login-bottom {
+  text-align: center;
+  margin-top: 45px;
+
+  color: #a5aec1;
+  font-size: 11px;
+}
+
+/* ==========================
+   ANIMACIONES
+========================== */
+
+@keyframes cardAppear {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ==========================
+   RESPONSIVE
+========================== */
+
+@media (max-width: 850px) {
+
+  .login-card {
+    grid-template-columns: 1fr;
+    max-width: 510px;
+    min-height: auto;
+  }
+
+  .login-welcome {
+    display: none;
+  }
+
+  .login-form-section {
+    padding: 45px 35px;
+  }
+
+  .login-brand {
+    margin-bottom: 40px;
+  }
+
+}
+
+@media (max-width: 480px) {
+
+  .login-container {
+    padding: 15px;
+  }
+
+  .login-card {
+    border-radius: 20px;
+  }
+
+  .login-form-section {
+    padding: 38px 25px;
+  }
+
+  .form-content h1 {
+    font-size: 29px;
+  }
+
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .login-card {
+    animation: none;
+  }
+
+  .input-custom,
+  .login-button {
+    transition: none;
+  }
+}
+
+/* ==========================================
+   INDEX - SIMULADOR BANCARIO WEB
+   Bootstrap 5 + CSS personalizado
+========================================== */
+
+/* ==========================================
+   COLORES Y FONDO PRINCIPAL
+========================================== */
+
+body.inicio {
+  --inicio-primary: #345cf6;
+  --inicio-primary-dark: #2446cb;
+  --inicio-purple: #7562ed;
+  --inicio-turquoise: #08b7c4;
+
+  --inicio-dark: #172447;
+  --inicio-muted: #667793;
+  --inicio-border: #e3eafa;
+
+  --inicio-shadow:
+    0 12px 35px rgba(39, 65, 135, 0.08);
+
+  min-height: 100vh;
+  margin: 0;
+
+  font-family:
+    "Segoe UI",
+    system-ui,
+    -apple-system,
+    sans-serif;
+
+  color: var(--inicio-dark);
+
+  background:
+    radial-gradient(
+      circle at 5% 30%,
+      rgba(131, 174, 255, 0.13),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 95% 85%,
+      rgba(8, 197, 202, 0.11),
+      transparent 30%
+    ),
+    #f4f7ff;
+}
+
+/* ==========================================
+   ENCABEZADO
+========================================== */
+
+.inicio-encabezado {
+  position: relative;
+  isolation: isolate;
+
+  overflow: hidden;
+
+  background: linear-gradient(
+    115deg,
+    #2446cb 0%,
+    #5665e7 55%,
+    #148fbc 100%
+  );
+
+  box-shadow:
+    0 12px 30px rgba(39, 65, 135, 0.15);
+}
+
+/* CÍRCULOS DECORATIVOS */
+
+.inicio-encabezado::before {
+  content: "";
+
+  position: absolute;
+  z-index: -1;
+
+  width: 550px;
+  height: 550px;
+
+  top: -340px;
+  right: -130px;
+
+  border-radius: 50%;
+
+  background:
+    rgba(255, 255, 255, 0.08);
+
+  pointer-events: none;
+}
+
+.inicio-encabezado::after {
+  content: "";
+
+  position: absolute;
+  z-index: -1;
+
+  width: 450px;
+  height: 450px;
+
+  bottom: -360px;
+  left: 12%;
+
+  border-radius: 50%;
+
+  background:
+    rgba(63, 255, 228, 0.12);
+
+  pointer-events: none;
+}
+
+/* ==========================================
+   MARCA DEL BANCO
+========================================== */
+
+.inicio-marca {
+  display: inline-flex;
+  align-items: center;
+
+  gap: 12px;
+
+  color: white;
+
+  text-decoration: none;
+
+  font-size: 13px;
+  font-weight: 800;
+
+  letter-spacing: 1.3px;
+}
+
+.inicio-marca:hover {
+  color: #d7fff8;
+}
+
+.inicio-marca-icono {
+  display: grid;
+  place-items: center;
+
+  width: 46px;
+  height: 46px;
+
+  background:
+    rgba(255, 255, 255, 0.15);
+
+  border:
+    1px solid rgba(255, 255, 255, 0.22);
+
+  border-radius: 14px;
+
+  font-size: 25px;
+}
+
+/* ==========================================
+   ETIQUETA DE BIENVENIDA
+========================================== */
+
+.inicio-etiqueta {
+  display: inline-flex;
+  align-items: center;
+
+  gap: 11px;
+
+  padding: 10px 17px;
+
+  background:
+    rgba(255, 255, 255, 0.13);
+
+  border:
+    1px solid rgba(255, 255, 255, 0.2);
+
+  border-radius: 30px;
+
+  font-size: 11px;
+  font-weight: 800;
+
+  letter-spacing: 1.5px;
+}
+
+.inicio-punto {
+  width: 9px;
+  height: 9px;
+
+  border-radius: 50%;
+
+  background: #8dffee;
+
+  box-shadow:
+    0 0 0 4px rgba(141, 255, 238, 0.15);
+}
+
+/* ==========================================
+   TÍTULO PRINCIPAL
+========================================== */
+
+.inicio-titulo {
+  font-size: clamp(2.9rem, 5.5vw, 4.7rem);
+
+  font-weight: 850;
+  letter-spacing: -2px;
+
+  line-height: 1.15;
+
+  color: white;
+}
+
+.inicio-titulo span {
+  color: #91ffef;
+}
+
+.inicio-descripcion {
+  max-width: 590px;
+
+  color: #e9f0ff;
+
+  font-size: 16px;
+  line-height: 1.9;
+}
+
+.inicio-nota {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  color: #e6efff;
+
+  font-size: 13px;
+}
+
+.inicio-nota span {
+  color: #91ffef;
+  font-size: 22px;
+}
+
+/* ==========================================
+   BOTONES GENERALES
+========================================== */
+
+.inicio .btn {
+  padding: 12px 20px;
+
+  border-radius: 12px;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  transition: all 0.25s ease;
+}
+
+.inicio .btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+
+.inicio .btn:focus-visible,
+.inicio a:focus-visible {
+  outline: 3px solid #08b7c4;
+  outline-offset: 3px;
+}
+
+/* BOTÓN SUPERIOR */
+
+.inicio-boton-nav {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+
+  background:
+    rgba(255, 255, 255, 0.07);
+}
+
+.inicio-boton-nav:hover {
+  color: #2446cb;
+  background: white;
+}
+
+/* BOTÓN PRINCIPAL */
+
+.inicio .inicio-boton-principal {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 13px;
+
+  min-height: 55px;
+
+  padding: 13px 25px;
+
+  background: white;
+  color: #2446cb;
+
+  border: 1px solid white;
+
+  box-shadow:
+    0 12px 28px rgba(23, 43, 109, 0.17);
+}
+
+.inicio .inicio-boton-principal:hover {
+  background: #eff4ff;
+  color: #2446cb;
+
+  box-shadow:
+    0 17px 35px rgba(23, 43, 109, 0.23);
+}
+
+/* BOTÓN CAJERO */
+
+.inicio .inicio-boton-secundario {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 10px;
+
+  min-height: 55px;
+
+  padding: 13px 25px;
+
+  background:
+    rgba(255, 255, 255, 0.11);
+
+  border-color:
+    rgba(255, 255, 255, 0.65);
+
+  color: white;
+}
+
+.inicio .inicio-boton-secundario:hover {
+  color: #2446cb;
+
+  background: white;
+  border-color: white;
+}
+
+/* ==========================================
+   TARJETA DE BIENVENIDA
+========================================== */
+
+.inicio-tarjeta-bienvenida {
+  position: relative;
+
+  overflow: hidden;
+
+  padding: 32px;
+
+  border-radius: 25px;
+
+  background:
+    rgba(255, 255, 255, 0.15);
+
+  border:
+    1px solid rgba(255, 255, 255, 0.28);
+
+  box-shadow:
+    0 20px 55px rgba(22, 39, 120, 0.14);
+
+  backdrop-filter: blur(14px);
+
+  animation: inicioAparecer 0.7s ease;
+}
+
+/* DECORACIÓN INTERIOR */
+
+.inicio-tarjeta-bienvenida::before {
+  content: "";
+
+  position: absolute;
+
+  width: 250px;
+  height: 250px;
+
+  top: -150px;
+  right: -120px;
+
+  border-radius: 50%;
+
+  background:
+    rgba(255, 255, 255, 0.09);
+
+  pointer-events: none;
+}
+
+/* PARTE SUPERIOR */
+
+.inicio-tarjeta-superior {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 12px;
+}
+
+.inicio-tarjeta-logo {
+  display: grid;
+  place-items: center;
+
+  width: 49px;
+  height: 49px;
+
+  border-radius: 15px;
+
+  background:
+    rgba(255, 255, 255, 0.20);
+
+  font-size: 25px;
+}
+
+.inicio-tarjeta-etiqueta {
+  padding: 8px 13px;
+
+  border-radius: 30px;
+
+  border:
+    1px solid rgba(255, 255, 255, 0.2);
+
+  background:
+    rgba(255, 255, 255, 0.13);
+
+  font-size: 10px;
+  font-weight: 800;
+
+  letter-spacing: 1.3px;
+}
+
+/* CONTENIDO CENTRAL */
+
+.inicio-tarjeta-centro {
+  padding: 42px 0 30px;
+}
+
+.inicio-icono-grande {
+  display: grid;
+  place-items: center;
+
+  width: 86px;
+  height: 86px;
+
+  margin-bottom: 25px;
+
+  border-radius: 23px;
+
+  background:
+    rgba(255, 255, 255, 0.16);
+
+  border:
+    1px solid rgba(255, 255, 255, 0.20);
+
+  font-size: 45px;
+
+  box-shadow:
+    0 10px 30px rgba(12, 33, 91, 0.10);
+}
+
+.inicio-tarjeta-centro h2 {
+  color: white;
+
+  font-size: clamp(1.7rem, 3vw, 2.3rem);
+
+  font-weight: 800;
+
+  line-height: 1.2;
+  letter-spacing: -1px;
+}
+
+.inicio-tarjeta-centro p {
+  max-width: 310px;
+
+  margin-top: 17px;
+
+  color: #e9f0ff;
+
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+/* BENEFICIOS */
+
+.inicio-tarjeta-beneficios {
+  display: flex;
+  flex-direction: column;
+
+  gap: 16px;
+
+  padding-top: 23px;
+
+  border-top:
+    1px solid rgba(255, 255, 255, 0.18);
+}
+
+.inicio-beneficio {
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  color: white;
+
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.inicio-beneficio span {
+  color: #91ffef;
+  font-size: 21px;
+}
+
+/* ==========================================
+   CONTENIDO PRINCIPAL
+========================================== */
+
+.inicio-contenido {
+  max-width: 1200px;
+}
+
+/* TÍTULOS */
+
+.inicio-section-kicker {
+  display: inline-block;
+
+  margin-bottom: 8px;
+
+  color: var(--inicio-primary);
+
+  font-size: 11px;
+  font-weight: 800;
+
+  letter-spacing: 1.6px;
+}
+
+.inicio-section-title {
+  color: var(--inicio-dark);
+
+  font-weight: 800;
+
+  letter-spacing: -0.7px;
+}
+
+.inicio-section-descripcion {
+  color: var(--inicio-muted);
+
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+/* ==========================================
+   BOTÓN VERIFICAR ESTADO
+========================================== */
+
+.inicio .inicio-boton-verificar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 11px;
+
+  min-height: 50px;
+
+  border-color: #345cf6;
+
+  color: white;
+
+  background: linear-gradient(
+    110deg,
+    #345cf6,
+    #675ce9
+  );
+
+  box-shadow:
+    0 10px 23px rgba(52, 92, 246, 0.20);
+}
+
+.inicio .inicio-boton-verificar:hover {
+  border-color: #345cf6;
+
+  background: linear-gradient(
+    110deg,
+    #244ad9,
+    #584bd3
+  );
+
+  box-shadow:
+    0 14px 30px rgba(52, 92, 246, 0.28);
+}
+
+.inicio-boton-verificar span {
+  font-size: 21px;
+}
+
+/* ==========================================
+   TARJETAS DE ESTADO
+========================================== */
+
+.inicio-estado-card {
+  padding: 26px;
+
+  border:
+    1px solid var(--inicio-border);
+
+  border-radius: 20px;
+
+  background: white;
+
+  box-shadow: var(--inicio-shadow);
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.inicio-estado-card:hover {
+  transform: translateY(-4px);
+
+  box-shadow:
+    0 18px 42px rgba(39, 65, 135, 0.12);
+}
+
+/* ICONOS */
+
+.inicio-estado-icono {
+  display: grid;
+  place-items: center;
+
+  width: 58px;
+  height: 58px;
+
+  border-radius: 17px;
+
+  font-size: 30px;
+}
+
+.inicio-icono-azul {
+  background: #eaf0ff;
+  color: #345cf6;
+}
+
+.inicio-icono-turquesa {
+  background: #e5fafa;
+  color: #08a8b1;
+}
+
+/* ETIQUETA */
+
+.inicio-estado-tipo {
+  padding: 8px 13px;
+
+  background: #f0f4ff;
+
+  border-radius: 30px;
+
+  color: #526b9a;
+
+  font-size: 10px;
+  font-weight: 800;
+
+  letter-spacing: 1.2px;
+}
+
+/* NOMBRE DEL SERVICIO */
+
+.inicio-estado-titulo {
+  margin-bottom: 9px;
+
+  color: #586b88;
+
+  font-size: 14px;
+  font-weight: 650;
+}
+
+/* RESULTADO DEL ESTADO */
+
+.inicio-estado-valor {
+  color: #345cf6;
+
+  font-size: clamp(1.4rem, 3vw, 1.9rem);
+  font-weight: 800;
+
+  letter-spacing: -0.5px;
+
+  overflow-wrap: anywhere;
+}
+
+/* LÍNEA DIVISORIA */
+
+.inicio-estado-linea {
+  height: 1px;
+
+  margin: 22px 0;
+
+  background: #e9eefb;
+}
+
+.inicio-estado-descripcion {
+  color: var(--inicio-muted);
+
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+/* ==========================================
+   TARJETAS DE SERVICIOS
+========================================== */
+
+.inicio-servicio {
+  display: flex;
+  flex-direction: column;
+
+  padding: 28px;
+
+  background: white;
+
+  border:
+    1px solid var(--inicio-border);
+
+  border-radius: 20px;
+
+  box-shadow: var(--inicio-shadow);
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.inicio-servicio:hover {
+  transform: translateY(-4px);
+
+  box-shadow:
+    0 18px 42px rgba(39, 65, 135, 0.12);
+}
+
+/* ICONOS */
+
+.inicio-servicio-icono {
+  display: grid;
+  place-items: center;
+
+  width: 65px;
+  height: 65px;
+
+  border-radius: 18px;
+
+  font-size: 32px;
+}
+
+.inicio-servicio-violeta {
+  background: #f0edff;
+  color: #7562ed;
+}
+
+.inicio-servicio-azul {
+  background: #eaf0ff;
+  color: #345cf6;
+}
+
+/* TÍTULOS */
+
+.inicio-servicio h3 {
+  color: var(--inicio-dark);
+
+  font-weight: 800;
+  letter-spacing: -0.4px;
+}
+
+/* DESCRIPCIÓN */
+
+.inicio-servicio p {
+  flex-grow: 1;
+
+  color: var(--inicio-muted);
+
+  font-size: 14px;
+  line-height: 1.9;
+}
+
+/* ENLACE */
+
+.inicio-servicio-enlace {
+  display: inline-flex;
+  align-items: center;
+
+  gap: 12px;
+
+  width: fit-content;
+
+  margin-top: 13px;
+
+  color: #345cf6;
+
+  text-decoration: none;
+
+  font-size: 14px;
+  font-weight: 800;
+
+  transition: gap 0.2s ease;
+}
+
+.inicio-servicio-enlace:hover {
+  gap: 18px;
+
+  color: #2446cb;
+}
+
+.inicio-servicio-enlace span {
+  font-size: 20px;
+}
+
+/* ==========================================
+   PIE DE PÁGINA
+========================================== */
+
+.inicio-footer {
+  margin-top: 25px;
+
+  background: white;
+
+  border-top:
+    1px solid #e7ecf8;
+}
+
+.inicio-footer p {
+  color: #8896ae;
+
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* ==========================================
+   ANIMACIONES
+========================================== */
+
+@keyframes inicioAparecer {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ==========================================
+   DISEÑO RESPONSIVE
+========================================== */
+
+@media (max-width: 991.98px) {
+
+  .inicio-titulo {
+    font-size: 3.6rem;
+  }
+
+  .inicio-tarjeta-bienvenida {
+    max-width: 600px;
+  }
+
+}
+
+@media (max-width: 767.98px) {
+
+  .inicio-titulo {
+    font-size: 3rem;
+  }
+
+  .inicio-descripcion {
+    font-size: 14px;
+  }
+
+  .inicio-tarjeta-bienvenida {
+    padding: 27px;
+  }
+
+  .inicio-estado-card,
+  .inicio-servicio {
+    padding: 23px;
+  }
+
+  .inicio .inicio-boton-verificar {
+    width: 100%;
+  }
+
+}
+
+@media (max-width: 480px) {
+
+  .inicio-marca {
+    font-size: 10px;
+    letter-spacing: 0.5px;
+  }
+
+  .inicio-marca-icono {
+    width: 40px;
+    height: 40px;
+
+    font-size: 21px;
+  }
+
+  .inicio-boton-nav {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .inicio-titulo {
+    font-size: 2.55rem;
+  }
+
+  .inicio-etiqueta {
+    font-size: 9px;
+    letter-spacing: 1px;
+  }
+
+  .inicio .inicio-boton-principal,
+  .inicio .inicio-boton-secundario {
+    width: 100%;
+  }
+
+  .inicio-tarjeta-centro {
+    padding: 30px 0 22px;
+  }
+
+  .inicio-footer .container {
+    justify-content: center !important;
+    text-align: center;
+  }
+
+}
+
+/* ==========================================
+   ACCESIBILIDAD
+========================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .inicio *,
+  .inicio *::before,
+  .inicio *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+}
+
+/* ==========================================
+   MONITOREO DEL SISTEMA COMPACTO
+========================================== */
+
+/* CONTENEDOR PRINCIPAL */
+
+.inicio-monitoreo {
+  max-width: 850px;
+
+  padding-top: 28px;
+
+  border-top: 1px solid #e3eafa;
+}
+
+/* TARJETAS MÁS PEQUEÑAS */
+
+.inicio-monitoreo .inicio-monitor-card {
+  padding: 16px 20px;
+
+  border-radius: 14px;
+
+  box-shadow:
+    0 5px 18px rgba(39, 65, 135, 0.05);
+}
+
+/* EFECTO AL PASAR EL CURSOR */
+
+.inicio-monitoreo .inicio-monitor-card:hover {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 8px 22px rgba(39, 65, 135, 0.09);
+}
+
+/* ICONOS PEQUEÑOS */
+
+.inicio-monitoreo .inicio-estado-icono {
+  width: 44px;
+  height: 44px;
+
+  flex-shrink: 0;
+
+  border-radius: 12px;
+
+  font-size: 22px;
+}
+
+/* NOMBRE DEL SERVICIO */
+
+.inicio-monitoreo .inicio-estado-titulo {
+  font-size: 13px;
+
+  color: #667793;
+
+  font-weight: 650;
+}
+
+/* RESULTADO DEL ESTADO */
+
+.inicio-monitoreo .inicio-estado-valor {
+  font-size: 16px;
+
+  font-weight: 750;
+
+  letter-spacing: 0;
+
+  color: #345cf6;
+}
+
+/* BOTÓN DE VERIFICACIÓN */
+
+.inicio .inicio-monitoreo .inicio-boton-verificar {
+  min-height: 41px;
+
+  padding: 8px 14px;
+
+  font-size: 12px;
+
+  border-radius: 10px;
+
+  box-shadow:
+    0 5px 14px rgba(52, 92, 246, 0.14);
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 767.98px) {
+
+  .inicio-monitoreo {
+    padding-top: 20px;
+  }
+
+  .inicio-monitoreo .inicio-monitor-card {
+    padding: 14px 16px;
+  }
+
+  .inicio .inicio-monitoreo .inicio-boton-verificar {
+    width: auto;
+  }
+
+}
+
+@media (max-width: 480px) {
+
+  .inicio .inicio-monitoreo .inicio-boton-verificar {
+    width: 100%;
+  }
+
 }

@@ -1,22 +1,1168 @@
-body.banca { background: #f2f5f9; }
 
-.banca-encabezado { background: linear-gradient(115deg, #152843, #19556a); }
+/* ==========================================
+   BANCA VIRTUAL
+   Bootstrap 5 + CSS personalizado
+========================================== */
+
+/* ==========================================
+   COLORES PRINCIPALES
+========================================== */
+
+body.banca {
+  --banca-primary: #345cf6;
+  --banca-primary-dark: #2446cb;
+  --banca-purple: #7562ed;
+  --banca-turquoise: #08b7c4;
+
+  --banca-dark: #172447;
+  --banca-muted: #667793;
+  --banca-border: #e3eafa;
+
+  --banca-shadow:
+    0 12px 35px rgba(39, 65, 135, 0.08);
+
+  min-height: 100vh;
+
+  font-family:
+    "Segoe UI",
+    system-ui,
+    -apple-system,
+    sans-serif;
+
+  color: var(--banca-dark);
+
+  background:
+    radial-gradient(
+      circle at 5% 25%,
+      rgba(131, 174, 255, 0.13),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 95% 85%,
+      rgba(8, 197, 202, 0.10),
+      transparent 30%
+    ),
+    #f4f7ff;
+}
+
+/* RESPETAR ELEMENTOS OCULTOS */
+
+.banca [hidden] {
+  display: none !important;
+}
+
+/* ==========================================
+   ENCABEZADO PRINCIPAL
+========================================== */
+
+.banca-encabezado {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+
+  background: linear-gradient(
+    115deg,
+    #2446cb 0%,
+    #5665e7 55%,
+    #148fbc 100%
+  );
+
+  box-shadow:
+    0 12px 30px rgba(39, 65, 135, 0.15);
+}
+
+/* DECORACIONES DEL FONDO */
+
+.banca-encabezado::before {
+  content: "";
+
+  position: absolute;
+  z-index: -1;
+
+  width: 420px;
+  height: 420px;
+
+  top: -240px;
+  right: -100px;
+
+  border-radius: 50%;
+
+  background:
+    rgba(255, 255, 255, 0.09);
+
+  pointer-events: none;
+}
+
+.banca-encabezado::after {
+  content: "";
+
+  position: absolute;
+  z-index: -1;
+
+  width: 380px;
+  height: 380px;
+
+  bottom: -310px;
+  left: 20%;
+
+  border-radius: 50%;
+
+  background:
+    rgba(63, 255, 228, 0.13);
+
+  pointer-events: none;
+}
+
+/* ==========================================
+   MARCA DEL BANCO
+========================================== */
+
+.banca-marca {
+  display: inline-flex;
+  align-items: center;
+
+  gap: 10px;
+
+  padding: 8px 15px;
+
+  background:
+    rgba(255, 255, 255, 0.13);
+
+  border:
+    1px solid rgba(255, 255, 255, 0.22);
+
+  border-radius: 30px;
+
+  font-size: 11px;
+  font-weight: 800;
+
+  letter-spacing: 1.4px;
+}
+
+.banca-marca-icono {
+  display: grid;
+  place-items: center;
+
+  width: 32px;
+  height: 32px;
+
+  border-radius: 10px;
+
+  background:
+    rgba(255, 255, 255, 0.18);
+
+  font-size: 19px;
+}
+
+/* ETIQUETA */
+
+.banca-etiqueta {
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  color: #d8fff9;
+
+  font-size: 11px;
+  font-weight: 800;
+
+  letter-spacing: 2px;
+}
+
+.banca-punto {
+  width: 9px;
+  height: 9px;
+
+  border-radius: 50%;
+
+  background: #8dffee;
+
+  box-shadow:
+    0 0 0 4px rgba(141, 255, 238, 0.15);
+}
+
+/* TÍTULO PRINCIPAL */
+
+.banca-titulo {
+  font-size: clamp(2rem, 4.5vw, 3.2rem);
+
+  font-weight: 800;
+
+  letter-spacing: -1.5px;
+  line-height: 1.15;
+}
+
+.banca-titulo span {
+  color: #91ffef;
+}
+
+.banca-subtitulo {
+  max-width: 600px;
+
+  color: #e9f0ff;
+
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+/* NOMBRE DEL USUARIO */
+
+.banca-usuario {
+  display: inline-flex;
+  align-items: center;
+
+  padding: 8px 15px;
+
+  border:
+    1px solid rgba(255, 255, 255, 0.23);
+
+  border-radius: 30px;
+
+  background:
+    rgba(255, 255, 255, 0.13);
+
+  color: white;
+
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* ==========================================
+   NAVEGACIÓN
+========================================== */
+
+.banca-nav {
+  gap: 10px;
+}
+
+.banca-nav a {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 9px;
+
+  padding: 12px 18px;
+
+  color: white;
+
+  background:
+    rgba(255, 255, 255, 0.11);
+
+  border:
+    1px solid rgba(255, 255, 255, 0.19);
+
+  border-radius: 12px;
+
+  font-size: 13px;
+  font-weight: 650;
+
+  text-decoration: none;
+
+  transition: all 0.25s ease;
+}
+
+.banca-nav a:hover {
+  background:
+    rgba(255, 255, 255, 0.25);
+
+  color: white;
+
+  transform: translateY(-2px);
+}
+
+.banca-nav a:focus-visible {
+  outline: 2px solid #91ffef;
+  outline-offset: 3px;
+}
+
+/* ==========================================
+   CONTENIDO PRINCIPAL
+========================================== */
+
+.banca-main {
+  max-width: 1250px;
+}
+
+.banca-main [id="resumen-cuenta"],
+.banca-main [id="movimientos"],
+.banca-main [id="transferencia"],
+.banca-main [id="perfil"] {
+  scroll-margin-top: 25px;
+}
+
+.banca-section-kicker {
+  display: inline-block;
+
+  margin-bottom: 6px;
+
+  color: var(--banca-primary);
+
+  font-size: 11px;
+  font-weight: 800;
+
+  letter-spacing: 1.7px;
+}
+
+.banca-section-title {
+  font-weight: 800;
+  letter-spacing: -0.6px;
+
+  color: var(--banca-dark);
+}
+
+.banca-section-description {
+  color: var(--banca-muted);
+
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+/* ==========================================
+   PANELES GENERALES
+========================================== */
 
 .banca-panel {
+  padding: clamp(1.25rem, 3vw, 1.8rem);
+
   background: white;
-  padding: clamp(1rem, 3vw, 1.5rem);
-  border: 1px solid #dce5ef;
-  border-radius: .85rem;
+
+  border:
+    1px solid var(--banca-border);
+
+  border-radius: 21px;
+
+  box-shadow: var(--banca-shadow);
+
+  transition:
+    box-shadow 0.25s ease,
+    transform 0.25s ease;
 }
+
+.banca-panel:hover {
+  box-shadow:
+    0 17px 42px rgba(39, 65, 135, 0.12);
+}
+
+.banca-panel .h4 {
+  font-weight: 800;
+  letter-spacing: -0.6px;
+  color: var(--banca-dark);
+}
+
+/* ==========================================
+   ICONOS DE LOS PANELES
+========================================== */
+
+.banca-panel-icono {
+  width: 52px;
+  height: 52px;
+
+  flex: 0 0 auto;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 15px;
+
+  font-size: 25px;
+  font-weight: 800;
+}
+
+/* ICONO AZUL */
+
+.banca-icono-azul {
+  background: #eaf0ff;
+  color: #345cf6;
+}
+
+/* ICONO VIOLETA */
+
+.banca-icono-violeta {
+  background: #f0edff;
+  color: #7562ed;
+}
+
+/* ICONO TURQUESA */
+
+.banca-icono-turquesa {
+  background: #e6f9fa;
+  color: #00aeb6;
+}
+
+/* ==========================================
+   TARJETA DE SALDO
+========================================== */
 
 .banca-saldo {
-  background: linear-gradient(145deg, #132c49, #204e67);
+  position: relative;
+  isolation: isolate;
+
+  overflow: hidden;
+
   color: white;
-  border-color: transparent;
+
+  border: none;
+
+  background: linear-gradient(
+    135deg,
+    #2446cb 0%,
+    #465ce0 50%,
+    #148db7 100%
+  );
+
+  box-shadow:
+    0 18px 42px rgba(46, 83, 196, 0.22);
 }
 
-.banca-saldo dt, .banca-texto-secundario { color: #dee9f2; }
-.banca-importe { font-size: clamp(1.8rem, 5vw, 3rem); font-weight: 700; overflow-wrap: anywhere; }
-.banca .table th { white-space: nowrap; background: #edf2f8; color: #213951; }
-.banca .table td { min-width: 6rem; overflow-wrap: anywhere; }
-.banca dd { overflow-wrap: anywhere; }
+/* DECORACIÓN CIRCULAR */
+
+.banca-saldo::before {
+  content: "";
+
+  position: absolute;
+  z-index: -1;
+
+  width: 320px;
+  height: 320px;
+
+  top: -170px;
+  right: -135px;
+
+  border-radius: 50%;
+
+  border:
+    55px solid rgba(255, 255, 255, 0.065);
+
+  pointer-events: none;
+}
+
+.banca-saldo::after {
+  content: "";
+
+  position: absolute;
+  z-index: -1;
+
+  width: 280px;
+  height: 280px;
+
+  bottom: -175px;
+  left: -110px;
+
+  border-radius: 50%;
+
+  background:
+    rgba(83, 255, 227, 0.08);
+
+  pointer-events: none;
+}
+
+.banca-saldo-contenido {
+  position: relative;
+  z-index: 1;
+}
+
+.banca-saldo h2 {
+  color: white;
+  font-weight: 750;
+}
+
+/* ETIQUETA MI CUENTA */
+
+.banca-tarjeta-etiqueta {
+  display: inline-flex;
+  align-items: center;
+
+  gap: 8px;
+
+  padding: 8px 14px;
+
+  border-radius: 30px;
+
+  background:
+    rgba(255, 255, 255, 0.15);
+
+  border:
+    1px solid rgba(255, 255, 255, 0.15);
+
+  font-size: 11px;
+  font-weight: 800;
+
+  letter-spacing: 1.5px;
+}
+
+.banca-tarjeta-etiqueta span {
+  color: #a1fff1;
+}
+
+/* ICONO DE TARJETA */
+
+.banca-saldo-icono {
+  width: 55px;
+  height: 55px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 16px;
+
+  background:
+    rgba(255, 255, 255, 0.16);
+
+  border:
+    1px solid rgba(255, 255, 255, 0.20);
+
+  font-size: 29px;
+}
+
+/* ==========================================
+   SALDO DISPONIBLE
+========================================== */
+
+.banca-balance {
+  padding: 20px 0 25px;
+
+  border-bottom:
+    1px solid rgba(255, 255, 255, 0.18);
+}
+
+.banca-texto-secundario {
+  color: #e4edff;
+
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.banca-importe {
+  font-size: clamp(2.2rem, 5vw, 3.5rem);
+
+  font-weight: 800;
+  line-height: 1.2;
+
+  letter-spacing: -1.5px;
+
+  color: #fff;
+
+  overflow-wrap: anywhere;
+
+  font-variant-numeric: tabular-nums;
+}
+
+.banca-divisa {
+  display: inline-block;
+
+  margin-top: 12px;
+
+  color: #dce9ff;
+
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* ==========================================
+   DATOS DE LA CUENTA
+========================================== */
+
+.banca-datos-cuenta {
+  margin-top: 8px;
+}
+
+.banca-datos-cuenta dt {
+  margin-bottom: 6px;
+
+  color: #dbe8ff;
+
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.banca-datos-cuenta dd {
+  margin-bottom: 0;
+
+  color: white;
+
+  font-size: 15px;
+  font-weight: 750;
+
+  overflow-wrap: anywhere;
+}
+
+/* ==========================================
+   SELECTOR DE CUENTA
+========================================== */
+
+.banca-selector {
+  padding: 14px;
+
+  border:
+    1px solid rgba(255, 255, 255, 0.20);
+
+  border-radius: 13px;
+
+  background:
+    rgba(255, 255, 255, 0.10);
+}
+
+.banca-selector .form-label {
+  color: white;
+}
+
+.banca-selector .form-select {
+  background-color: white;
+  color: #172447;
+}
+
+/* ==========================================
+   CUENTA ORIGEN TRANSFERENCIA
+========================================== */
+
+.banca-origen {
+  display: flex;
+  flex-direction: column;
+
+  gap: 8px;
+
+  padding: 16px 18px;
+
+  border: 1px solid #dfe8ff;
+  border-radius: 14px;
+
+  background: linear-gradient(
+    120deg,
+    #eef3ff,
+    #f4f2ff
+  );
+}
+
+.banca-origen-label {
+  color: #63769a;
+
+  font-size: 10px;
+  font-weight: 800;
+
+  letter-spacing: 1.4px;
+}
+
+.banca-origen strong {
+  color: #2949b0;
+
+  font-size: 15px;
+  font-weight: 800;
+
+  overflow-wrap: anywhere;
+}
+
+/* ==========================================
+   FORMULARIOS BOOTSTRAP
+========================================== */
+
+.banca .form-label {
+  margin-bottom: 9px;
+
+  color: #34445f;
+
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.banca .form-control,
+.banca .form-select {
+  min-height: 51px;
+
+  padding: 12px 15px;
+
+  background-color: #f7f9fe;
+
+  border:
+    1.5px solid #e0e7f6;
+
+  border-radius: 12px;
+
+  color: #263751;
+
+  font-size: 14px;
+
+  transition: all 0.25s ease;
+}
+
+.banca .form-control::placeholder {
+  color: #929cb1;
+}
+
+.banca .form-control:hover,
+.banca .form-select:hover {
+  border-color: #b9c7fa;
+}
+
+/* EFECTO AL SELECCIONAR */
+
+.banca .form-control:focus,
+.banca .form-select:focus {
+  background: white;
+
+  border-color: var(--banca-primary);
+
+  box-shadow:
+    0 0 0 4px rgba(52, 92, 246, 0.11);
+}
+
+/* GRUPO DE ENTRADA */
+
+.banca .input-group-text {
+  padding: 0 17px;
+
+  background: #eaf0ff;
+
+  color: #345cf6;
+
+  border:
+    1.5px solid #e0e7f6;
+
+  border-radius: 12px 0 0 12px;
+
+  font-weight: 800;
+}
+
+.banca .input-group .form-control {
+  border-radius: 0 12px 12px 0;
+}
+
+/* ==========================================
+   BOTONES
+========================================== */
+
+.banca .btn {
+  padding: 11px 18px;
+
+  border-radius: 11px;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  transition: all 0.25s ease;
+}
+
+.banca .btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+
+.banca .btn:focus-visible {
+  outline: 3px solid #08b7c4;
+  outline-offset: 3px;
+}
+
+/* BOTÓN PRINCIPAL */
+
+.banca .btn-primary {
+  border-color: #345cf6;
+
+  background: linear-gradient(
+    110deg,
+    #345cf6,
+    #675ce9
+  );
+
+  color: white;
+
+  box-shadow:
+    0 10px 23px rgba(52, 92, 246, 0.19);
+}
+
+.banca .btn-primary:hover:not(:disabled) {
+  border-color: #345cf6;
+
+  background: linear-gradient(
+    110deg,
+    #244ad9,
+    #584bd3
+  );
+
+  box-shadow:
+    0 14px 30px rgba(52, 92, 246, 0.28);
+}
+
+/* BOTÓN CON ICONO */
+
+.banca-boton {
+  display: inline-flex;
+
+  justify-content: center;
+  align-items: center;
+
+  gap: 12px;
+
+  min-height: 51px;
+}
+
+.banca-boton span {
+  font-size: 19px;
+}
+
+/* BOTÓN DESACTIVADO */
+
+.banca .btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* BOTÓN SECUNDARIO */
+
+.banca .btn-outline-primary {
+  color: #345cf6;
+  background: white;
+
+  border-color: #b7c7ff;
+}
+
+.banca .btn-outline-primary:hover:not(:disabled) {
+  background: #edf2ff;
+  color: #2446cb;
+
+  border-color: #345cf6;
+}
+
+/* PAGINACIÓN */
+
+.banca .btn-outline-secondary {
+  color: #526580;
+
+  border-color: #d9e2f0;
+
+  background: white;
+}
+
+.banca .btn-outline-secondary:hover:not(:disabled) {
+  background: #f0f4ff;
+  color: #345cf6;
+}
+
+/* CERRAR SESIÓN */
+
+.banca .banca-salir {
+  color: white;
+
+  border-color:
+    rgba(255, 255, 255, 0.65);
+
+  background:
+    rgba(255, 255, 255, 0.07);
+}
+
+.banca .banca-salir:hover {
+  color: #2446cb;
+
+  background: white;
+  border-color: white;
+}
+
+/* ==========================================
+   TABLA DE MOVIMIENTOS
+========================================== */
+
+.banca-tabla {
+  border: 1px solid #e8eefb;
+  border-radius: 15px;
+}
+
+.banca .table {
+  margin-bottom: 0;
+
+  --bs-table-border-color: #eaf0f8;
+}
+
+.banca .table thead th {
+  padding: 17px 15px;
+
+  background: #eff3ff;
+
+  color: #405270;
+
+  font-size: 12px;
+  font-weight: 800;
+
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+
+  border-bottom:
+    1px solid #e1e9fb;
+
+  white-space: nowrap;
+}
+
+.banca .table td {
+  min-width: 6rem;
+
+  padding: 17px 15px;
+
+  color: #34445f;
+
+  font-size: 13px;
+
+  vertical-align: middle;
+
+  overflow-wrap: anywhere;
+}
+
+.banca .table tbody tr {
+  transition: background 0.2s ease;
+}
+
+.banca .table tbody tr:hover > * {
+  --bs-table-bg: #f7f9ff;
+}
+
+.banca .table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* ==========================================
+   PAGINACIÓN DE MOVIMIENTOS
+========================================== */
+
+.banca-paginacion {
+  padding-top: 8px;
+}
+
+#movimientos-pagina {
+  color: #657590;
+
+  font-size: 13px;
+  font-weight: 700;
+}
+
+/* ==========================================
+   INFORMACIÓN DEL PERFIL
+========================================== */
+
+.banca-perfil-datos {
+  display: grid;
+  gap: 12px;
+}
+
+.banca-dato {
+  padding: 14px 17px;
+
+  background: #f7f9ff;
+
+  border: 1px solid #e9eefb;
+  border-radius: 13px;
+}
+
+.banca-dato dt {
+  margin-bottom: 6px;
+
+  color: #7a89a3;
+
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.banca-dato dd {
+  margin-bottom: 0;
+
+  color: #263751;
+
+  font-size: 15px;
+  font-weight: 750;
+
+  overflow-wrap: anywhere;
+}
+
+/* ==========================================
+   MENSAJE DE SEGURIDAD
+========================================== */
+
+.banca-aviso-seguridad {
+  display: flex;
+
+  align-items: flex-start;
+
+  gap: 13px;
+
+  padding: 17px;
+
+  background: #f0f3ff;
+
+  border: 1px solid #dfe5ff;
+
+  border-radius: 14px;
+}
+
+.banca-aviso-seguridad span {
+  font-size: 23px;
+  line-height: 1.3;
+}
+
+.banca-aviso-seguridad p {
+  color: #586b96;
+
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+/* ==========================================
+   MENSAJES Y AVISOS
+========================================== */
+
+.banca [role="status"]:not([hidden]),
+.banca [role="alert"]:not([hidden]) {
+  overflow-wrap: anywhere;
+}
+
+/* ==========================================
+   PIE DE PÁGINA
+========================================== */
+
+.banca-footer {
+  color: #929eb4;
+
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* ==========================================
+   ANIMACIONES
+========================================== */
+
+@keyframes bancaAparecer {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.banca-main > .row,
+.banca-main > .banca-panel {
+  animation: bancaAparecer 0.6s ease both;
+}
+
+/* ==========================================
+   RESPONSIVE - TABLETS
+========================================== */
+
+@media (max-width: 991.98px) {
+
+  .banca-titulo {
+    font-size: 2.4rem;
+  }
+
+  .banca-panel {
+    border-radius: 18px;
+  }
+
+  .banca-saldo {
+    min-height: 400px;
+  }
+
+}
+
+/* ==========================================
+   RESPONSIVE - CELULARES
+========================================== */
+
+@media (max-width: 767.98px) {
+
+  .banca-encabezado .container {
+    padding-top: 30px !important;
+    padding-bottom: 30px !important;
+  }
+
+  .banca-titulo {
+    font-size: 2rem;
+  }
+
+  .banca-subtitulo {
+    font-size: 13px;
+  }
+
+  .banca-nav {
+    gap: 8px;
+  }
+
+  .banca-nav a {
+    flex: 1 1 45%;
+
+    padding: 11px 10px;
+
+    font-size: 12px;
+  }
+
+  .banca-saldo {
+    min-height: auto;
+  }
+
+  .banca-importe {
+    font-size: 2.3rem;
+  }
+
+  .banca-panel {
+    padding: 20px;
+  }
+
+  .banca-paginacion {
+    justify-content: center !important;
+  }
+
+}
+
+/* ==========================================
+   PANTALLAS MUY PEQUEÑAS
+========================================== */
+
+@media (max-width: 480px) {
+
+  .banca-marca {
+    font-size: 10px;
+    letter-spacing: 0.7px;
+  }
+
+  .banca-acciones {
+    width: 100%;
+  }
+
+  .banca-salir {
+    width: 100%;
+  }
+
+  .banca-panel-icono {
+    width: 46px;
+    height: 46px;
+    font-size: 21px;
+  }
+
+  .banca-panel .h4 {
+    font-size: 1.18rem;
+  }
+
+  .banca-datos-cuenta dd {
+    font-size: 14px;
+  }
+
+  .banca-boton {
+    width: 100%;
+  }
+
+}
+
+/* ==========================================
+   ACCESIBILIDAD
+========================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .banca *,
+  .banca *::before,
+  .banca *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+}

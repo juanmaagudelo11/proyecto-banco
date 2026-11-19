@@ -1,47 +1,759 @@
-body.admin { background: #f2f5f9; }
+
+/* ======================================
+   PANEL ADMINISTRATIVO BANCARIO
+   Bootstrap 5 + CSS personalizado
+====================================== */
+
+/* COLORES Y FONDO */
+
+body.admin {
+  --admin-blue: #345cf6;
+  --admin-blue-dark: #2446cb;
+  --admin-purple: #7562ed;
+  --admin-teal: #08b7c4;
+  --admin-ink: #172447;
+  --admin-muted: #667793;
+  --admin-border: #e4eafb;
+  --admin-shadow: 0 12px 34px rgba(39, 65, 135, .075);
+
+  min-height: 100vh;
+  color: var(--admin-ink);
+  font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+
+  background:
+    radial-gradient(
+      circle at 5% 32%,
+      rgba(128, 172, 255, .13),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at 95% 95%,
+      rgba(8, 197, 202, .11),
+      transparent 30%
+    ),
+    #f4f7ff;
+}
+
+/* Respeta los atributos hidden de JavaScript */
+
+.admin [hidden] {
+  display: none !important;
+}
+
+/* ======================================
+   ENCABEZADO
+====================================== */
 
 .admin-encabezado {
-  background: linear-gradient(115deg, #122541, #173c5e);
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+
+  background: linear-gradient(
+    117deg,
+    #2446cb 0%,
+    #5665e7 56%,
+    #148fbc 100%
+  );
+
+  box-shadow: 0 10px 28px rgba(38, 66, 175, .13);
 }
 
-.admin-metricas {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 11rem), 1fr));
-  gap: .75rem;
+/* ELEMENTOS DECORATIVOS */
+
+.admin-encabezado::before,
+.admin-encabezado::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+
+  width: 390px;
+  height: 390px;
+
+  border-radius: 50%;
+  pointer-events: none;
 }
 
-.admin-metrica,
+.admin-encabezado::before {
+  top: -245px;
+  right: -65px;
+  background: rgba(255, 255, 255, .10);
+}
+
+.admin-encabezado::after {
+  bottom: -320px;
+  left: 20%;
+  background: rgba(78, 255, 228, .14);
+}
+
+/* LOGOTIPO */
+
+.admin-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: .65rem;
+
+  padding: .45rem .85rem;
+
+  border: 1px solid rgba(255, 255, 255, .24);
+  border-radius: 999px;
+
+  background: rgba(255, 255, 255, .13);
+
+  font-size: .76rem;
+  font-weight: 750;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+}
+
+.admin-brand-icon {
+  display: inline-grid;
+  place-items: center;
+
+  width: 29px;
+  height: 29px;
+
+  border-radius: 9px;
+  background: rgba(255, 255, 255, .2);
+  font-size: 1.05rem;
+}
+
+/* TÍTULOS */
+
+.admin-hero-title {
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 800;
+  letter-spacing: -.045em;
+  line-height: 1.14;
+}
+
+.admin-hero-title span {
+  color: #95fff0;
+}
+
+.admin-hero-text {
+  max-width: 600px;
+  color: #e9efff;
+  font-size: .96rem;
+}
+
+.admin-user-tag {
+  display: inline-flex;
+  align-items: center;
+
+  padding: .45rem .8rem;
+
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, .20);
+  background: rgba(255, 255, 255, .13);
+
+  font-size: .82rem;
+}
+
+/* ======================================
+   NAVEGACIÓN
+====================================== */
+
+.admin-nav {
+  gap: .6rem;
+}
+
+.admin-nav a {
+  display: inline-flex;
+  align-items: center;
+  gap: .45rem;
+
+  padding: .75rem 1.05rem;
+
+  border: 1px solid rgba(255, 255, 255, .18);
+  border-radius: 12px;
+
+  color: #fff;
+  background: rgba(255, 255, 255, .11);
+
+  font-size: .89rem;
+  font-weight: 600;
+  text-decoration: none;
+
+  transition:
+    background .2s ease,
+    transform .2s ease;
+}
+
+.admin-nav a:hover,
+.admin-nav a:focus-visible {
+  color: #fff;
+  background: rgba(255, 255, 255, .23);
+  transform: translateY(-2px);
+}
+
+.admin-nav a:focus-visible {
+  outline: 2px solid #96fff3;
+  outline-offset: 3px;
+}
+
+/* ======================================
+   CONTENIDO PRINCIPAL
+====================================== */
+
+.admin-main {
+  max-width: 1250px;
+}
+
+.admin-main section[id] {
+  scroll-margin-top: 1.5rem;
+}
+
+.admin-section-kicker {
+  display: inline-block;
+  margin-bottom: .4rem;
+
+  color: var(--admin-blue);
+
+  font-size: .7rem;
+  font-weight: 800;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+}
+
+.admin-section-title {
+  font-weight: 800;
+  letter-spacing: -.035em;
+  color: var(--admin-ink);
+}
+
+.admin-section-description {
+  font-size: .9rem;
+  color: var(--admin-muted);
+}
+
+/* ======================================
+   TARJETAS DE MÉTRICAS
+====================================== */
+
+.admin-metrica {
+  position: relative;
+  overflow: hidden;
+
+  height: 100%;
+  min-height: 156px;
+
+  padding: 1.18rem;
+
+  border: 1px solid var(--admin-border);
+  border-radius: 19px;
+
+  background: #fff;
+  box-shadow: var(--admin-shadow);
+
+  transition:
+    transform .22s ease,
+    box-shadow .22s ease;
+}
+
+/* ANIMACIÓN AL PASAR EL CURSOR */
+
+.admin-metrica:hover {
+  transform: translateY(-4px);
+
+  box-shadow:
+    0 18px 40px rgba(39, 65, 135, .13);
+}
+
+/* LÍNEA SUPERIOR DE COLOR */
+
+.admin-metrica::before {
+  content: "";
+  position: absolute;
+
+  inset: 0 0 auto;
+  height: 4px;
+
+  background: var(--accent, var(--admin-blue));
+}
+
+/* COLORES INDIVIDUALES */
+
+.admin-metrica--blue {
+  --accent: #345cf6;
+  --accent-bg: #eaf0ff;
+}
+
+.admin-metrica--teal {
+  --accent: #00aeb6;
+  --accent-bg: #e5fafa;
+}
+
+.admin-metrica--orange {
+  --accent: #ee9a33;
+  --accent-bg: #fff4e7;
+}
+
+.admin-metrica--red {
+  --accent: #e66c88;
+  --accent-bg: #ffedf1;
+}
+
+.admin-metrica--purple {
+  --accent: #7562ed;
+  --accent-bg: #f0edff;
+}
+
+/* ICONOS */
+
+.admin-metrica-icon {
+  display: inline-grid;
+  place-items: center;
+
+  width: 43px;
+  height: 43px;
+
+  margin-bottom: .85rem;
+
+  border-radius: 13px;
+
+  color: var(--accent);
+  background: var(--accent-bg, #eaf0ff);
+
+  font-size: 1.35rem;
+}
+
+/* TEXTOS */
+
+.admin-metrica dt {
+  margin-bottom: .4rem;
+
+  font-size: .82rem;
+  font-weight: 650;
+  color: var(--admin-muted);
+}
+
+.admin-metrica dd {
+  margin: 0;
+
+  font-size: clamp(1.28rem, 1.8vw, 1.7rem);
+  font-weight: 800;
+  letter-spacing: -.04em;
+  line-height: 1.2;
+
+  overflow-wrap: anywhere;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ======================================
+   PANELES DE CONTENIDO
+====================================== */
+
 .admin-panel {
-  background: white;
-  border: 1px solid #dce5ef;
-  border-radius: .85rem;
+  padding: clamp(1.1rem, 2.5vw, 1.8rem);
+
+  border: 1px solid var(--admin-border);
+  border-radius: 21px;
+
+  background: #fff;
+  box-shadow: var(--admin-shadow);
 }
 
-.admin-metrica { padding: .9rem 1rem; }
-.admin-metrica dt { font-size: .9rem; color: #41536b; }
-.admin-metrica dd { margin: .4rem 0 0; font-size: 1.35rem; font-weight: 700; overflow-wrap: anywhere; }
+.admin-panel-header {
+  margin-bottom: 1.4rem;
+}
 
-.admin-panel { padding: clamp(1rem, 3vw, 1.5rem); }
-.admin .table thead th { background: #edf2f8; color: #213951; }
-.admin .table th { white-space: nowrap; }
-.admin .table td { min-width: 6rem; overflow-wrap: anywhere; }
-.admin .table td:last-child { white-space: nowrap; }
+.admin-panel-header .admin-section-description {
+  margin-bottom: 0;
+}
+
+.admin-panel .h4 {
+  font-weight: 800;
+  letter-spacing: -.03em;
+}
+
+.admin-panel form[role="search"],
+.admin-panel #filtrar-historial,
+.admin-panel #formulario-consignacion {
+  margin-bottom: 1.2rem;
+}
+
+/* ======================================
+   TABLAS
+====================================== */
+
+.admin-panel .table-responsive {
+  border: 1px solid #e9eefb;
+  border-radius: 15px;
+}
+
+.admin .table {
+  margin-bottom: 0;
+  --bs-table-border-color: #edf1f9;
+}
+
+.admin .table thead th {
+  padding: 1rem .95rem;
+
+  background: #f0f4ff;
+  color: #405270;
+
+  font-size: .75rem;
+  font-weight: 800;
+
+  letter-spacing: .035em;
+  text-transform: uppercase;
+
+  border-bottom: 1px solid #e5eafa;
+
+  white-space: nowrap;
+}
+
+.admin .table td {
+  min-width: 6rem;
+
+  padding: 1rem .95rem;
+
+  color: #263751;
+  font-size: .87rem;
+
+  overflow-wrap: anywhere;
+  vertical-align: middle;
+}
+
+.admin .table td:last-child {
+  white-space: nowrap;
+}
+
+.admin .table tbody tr:hover > * {
+  --bs-table-bg: #f7f9ff;
+}
+
+.admin .table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.admin .table .btn {
+  white-space: nowrap;
+}
+
+/* ======================================
+   FORMULARIOS BOOTSTRAP
+====================================== */
+
+.admin .form-label {
+  margin-bottom: .5rem;
+
+  color: #34445f;
+
+  font-size: .84rem;
+  font-weight: 650;
+}
+
+.admin .form-control,
+.admin .form-select {
+  min-height: 47px;
+
+  padding: .65rem .9rem;
+
+  border: 1px solid #dfe7f6;
+  border-radius: 11px;
+
+  background-color: #f8faff;
+  color: #263751;
+
+  font-size: .89rem;
+
+  transition:
+    border-color .2s ease,
+    box-shadow .2s ease,
+    background-color .2s ease;
+}
+
+.admin .form-control:hover,
+.admin .form-select:hover {
+  border-color: #afc2fb;
+}
+
+.admin .form-control:focus,
+.admin .form-select:focus {
+  border-color: var(--admin-blue);
+  background-color: #fff;
+
+  box-shadow:
+    0 0 0 .22rem rgba(52, 92, 246, .12);
+}
+
+/* GRUPOS DE INPUT */
+
+.admin .input-group-text {
+  min-height: 47px;
+
+  border-color: #dfe7f6;
+  border-radius: 11px 0 0 11px;
+
+  background: #eaf0ff;
+  color: var(--admin-blue);
+
+  font-weight: 800;
+}
+
+.admin .input-group > .form-control {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+/* ======================================
+   BOTONES
+====================================== */
+
+.admin .btn {
+  border-radius: 11px;
+  padding: .68rem 1.05rem;
+
+  font-size: .87rem;
+  font-weight: 700;
+
+  transition:
+    transform .2s ease,
+    box-shadow .2s ease,
+    background .2s ease;
+}
+
+.admin .btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+
+.admin .btn:focus-visible {
+  outline: 3px solid #00aeb6;
+  outline-offset: 2px;
+}
+
+/* BOTÓN PRINCIPAL DEGRADADO */
+
+.admin .btn-primary {
+  border-color: #345cf6;
+
+  background: linear-gradient(
+    110deg,
+    #345cf6,
+    #675ce9
+  );
+
+  box-shadow:
+    0 8px 20px rgba(52, 92, 246, .18);
+}
+
+.admin .btn-primary:hover,
+.admin .btn-primary:focus-visible {
+  border-color: #345cf6;
+
+  background: linear-gradient(
+    110deg,
+    #244ad9,
+    #5648cd
+  );
+
+  box-shadow:
+    0 12px 24px rgba(52, 92, 246, .25);
+}
+
+/* BOTÓN SECUNDARIO */
+
+.admin .btn-outline-primary {
+  border-color: #b8c7ff;
+  color: #345cf6;
+  background: #fff;
+}
+
+.admin .btn-outline-primary:hover {
+  border-color: #345cf6;
+  background: #edf2ff;
+  color: #2446cb;
+}
+
+.admin .btn-outline-secondary {
+  border-color: #d8e1f0;
+  color: #5b6a84;
+  background: #fff;
+}
+
+.admin .btn-outline-secondary:hover {
+  border-color: #b8c7df;
+  background: #f2f6ff;
+  color: #364b6b;
+}
+
+.admin .btn-outline-light {
+  border-color: rgba(255,255,255,.65);
+  color: #fff;
+}
+
+.admin .btn-outline-light:hover {
+  color: #2446cb;
+  background: #fff;
+}
+
+.admin .btn-sm {
+  padding: .43rem .76rem;
+  font-size: .78rem;
+}
+
+/* ======================================
+   PAGINACIÓN
+====================================== */
 
 .admin-paginacion {
   display: flex;
-  gap: .65rem;
-  align-items: center;
+  flex-wrap: wrap;
+  gap: .7rem;
+
   justify-content: flex-end;
+  align-items: center;
+
+  margin-top: 1rem;
 }
+
+.admin-paginacion [data-pagina] {
+  font-size: .82rem;
+  font-weight: 700;
+  color: #596985;
+}
+
+/* ======================================
+   AVISOS Y PIE DE PÁGINA
+====================================== */
+
+.admin [role="status"]:not([hidden]),
+.admin [role="alert"]:not([hidden]) {
+  overflow-wrap: anywhere;
+}
+
+.admin-footer {
+  color: #8894ac;
+  font-size: .8rem;
+}
+
+/* ======================================
+   VENTANAS DE DIÁLOGO
+====================================== */
 
 .admin-dialogo {
   box-sizing: border-box;
-  width: min(38rem, calc(100% - 1.5rem));
-  max-height: calc(100% - 1.5rem);
-  padding: clamp(1rem, 3vw, 1.5rem);
-  border: 1px solid #dce5ef;
-  border-radius: .85rem;
-  color: var(--bs-body-color);
+
+  width: min(42rem, calc(100vw - 1.25rem));
+  max-width: none;
+
+  max-height: calc(100dvh - 1.25rem);
+  overflow-y: auto;
+
+  padding: clamp(1.1rem, 3vw, 1.9rem);
+
+  border: 1px solid #e3eafb;
+  border-radius: 22px;
+
+  background: #fff;
+  color: var(--admin-ink);
+
+  box-shadow:
+    0 28px 85px rgba(15, 30, 75, .26);
 }
 
-.admin-dialogo::backdrop { background: #16263aa8; }
+/* OSCURECER FONDO DEL DIÁLOGO */
+
+.admin-dialogo::backdrop {
+  background: rgba(15, 25, 63, .66);
+  backdrop-filter: blur(5px);
+}
+
+.admin-dialogo .h4 {
+  font-weight: 800;
+  letter-spacing: -.035em;
+}
+
+.admin-dialogo .btn-close {
+  flex: 0 0 auto;
+}
+
+.admin-dialogo #detalle-cuentas > form,
+.admin-dialogo #detalle-cuentas > div {
+  border-color: #e2e9f8 !important;
+  border-radius: 14px !important;
+  background: #f8faff;
+}
+
+/* ======================================
+   DISEÑO RESPONSIVE
+====================================== */
+
+@media (max-width: 767.98px) {
+
+  .admin-hero-title {
+    font-size: 2rem;
+  }
+
+  .admin-nav a {
+    flex: 1 1 auto;
+    justify-content: center;
+    padding: .7rem .85rem;
+  }
+
+  .admin-panel {
+    border-radius: 16px;
+  }
+
+  .admin-metrica {
+    min-height: 140px;
+  }
+
+  .admin-paginacion {
+    justify-content: center;
+  }
+
+  #buscar-clientes > .flex-grow-1 {
+    flex-basis: 100%;
+  }
+
+  #buscar-clientes > .btn {
+    width: 100%;
+  }
+
+  #filtrar-historial .col-auto {
+    width: 100%;
+  }
+
+  #filtrar-historial .col-auto .btn {
+    width: 100%;
+  }
+
+}
+
+@media (max-width: 480px) {
+
+  .admin-dialogo {
+    border-radius: 16px;
+  }
+
+  .admin-encabezado .btn-outline-light {
+    width: 100%;
+  }
+
+  .admin-encabezado .admin-top-actions {
+    width: 100%;
+  }
+
+  .admin-panel #formulario-consignacion .btn-primary {
+    width: 100%;
+  }
+
+}
+
+/* ======================================
+   ACCESIBILIDAD
+====================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .admin *,
+  .admin *::before,
+  .admin *::after {
+    transition-duration: .01ms !important;
+    animation-duration: .01ms !important;
+  }
+
+}
