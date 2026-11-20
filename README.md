@@ -325,3 +325,13 @@ Ejecuta el bloque completo en una sola terminal de PowerShell. Las variables `MY
 
 La suite genera las credenciales ficticias e importa `database.sql` y las migraciones `003` y `006`. Necesita una base vacía en cada ejecución. Para repetir, crea `simulador_fase7_prueba_2` o usa otro sufijo. Para la demostración manual, usa tu base de demostración y el flujo de los tres módulos de [la matriz de pruebas](docs/PRUEBAS_FASE_7.md#demostración-manual-en-xampp).
 
+
+## Fase 8 — Pulido, documentación y entrega
+
+Esta fase no agrega funcionalidades nuevas ni cambia el esquema de base de datos. Cubre el pulido visual y de accesibilidad de las cinco pantallas (inicio de sesión, panel de administración, banca virtual, cajero ATM y portada), la verificación responsive en dispositivos móviles, el diagrama entidad-relación del esquema final y una revisión de limpieza de código.
+
+1. Abre cada pantalla del simulador (`/inicio-sesion`, `/panel-administrador`, `/banca-virtual`, `/cajero-atm` y `/`) y confirma que el estilo visual sea consistente.
+2. En las herramientas de desarrollador del navegador, activa la emulación de dispositivo móvil (`Ctrl+Shift+M` en Chrome o Edge) y revisa que ninguna pantalla tenga desbordamiento horizontal.
+3. Consulta el [diagrama entidad-relación](docs/DIAGRAMA_ER.md) para ver la estructura completa de las 7 tablas del esquema final, incluidas las agregadas por las migraciones.
+
+El detalle completo de lo verificado en esta fase está en [el estado del proyecto](docs/ESTADO_PROYECTO.md).
